@@ -7,3 +7,11 @@ compatibility_date = "2023-10-25"
 [build]
 command = "npm run build"
 watch_dir = "src"
+
+[env.staging]
+workers_dev = false
+route = "jinglebot-staging.v4.wtf/*"
+
+[env.production]
+workers_dev = false
+route = "jinglebot.v4.wtf/*"

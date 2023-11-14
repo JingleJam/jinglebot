@@ -8,7 +8,11 @@
   "scripts": {
     "build": "tsup",
     "dev": "wrangler dev",
-    "tunnel": "cloudflared tunnel --url http://localhost:8787"
+    "tunnel": "cloudflared tunnel --url http://localhost:8787",
+    "publish:production": "wrangler deploy -e production",
+    "publish:staging": "wrangler deploy -e staging",
+    "logs:production": "wrangler tail -e production",
+    "logs:staging": "wrangler tail -e staging"
   },
   "repository": {
     "type": "git",

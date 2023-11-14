@@ -1,0 +1,55 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - production
+      - staging
+
+jobs:
+#   test:
+#     name: Test
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - uses: actions/checkout@v3
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version-file: .nvmrc
+#           cache: npm
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Run tests
+#         run: npm test
+
+  deploy:
+    name: Deploy
+    # needs: test
+    runs-on: ubuntu-latest
+
+    environment:
+      name: ${{ github.ref_name }}
+      url: ${{ github.ref_name == 'production' && 'https://jinglebot.v4.wtf' || 'https://jinglebot-staging.v4.wtf' }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Publish to ${{ github.ref_name }}
+        run: npm run publish:${{ github.ref_name }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          DISCORD_CLIENT_ID: ${{ github.ref_name == 'production' && secrets.PRODUCTION_DISCORD_CLIENT_ID || secrets.STAGING_DISCORD_CLIENT_ID }}
+          DISCORD_CLIENT_SECRET: ${{ github.ref_name == 'production' && secrets.PRODUCTION_DISCORD_CLIENT_SECRET || secrets.STAGING_DISCORD_CLIENT_SECRET }}
