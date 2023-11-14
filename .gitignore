@@ -1,0 +1,14 @@
+# IDEs
+.idea/
+.vscode/
+
+# NPM
+node_modules/
+
+# macOS
+.DS_Store
+
+# Dev
+.dev.vars
+.wrangler/
+dist/

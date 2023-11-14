@@ -1,0 +1,9 @@
+name = "jinglebot"
+main = "dist/index.js"
+account_id = "fb1f542488f2441acf88ca15f3a8390d"
+workers_dev = true
+compatibility_date = "2023-10-25"
+
+[build]
+command = "npm run build"
+watch_dir = "src"
