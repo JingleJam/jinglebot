@@ -10,6 +10,6 @@
     "allowSyntheticDefaultImports": true,
     "removeComments": false,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": true
   }
 }

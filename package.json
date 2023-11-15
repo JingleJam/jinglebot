@@ -12,7 +12,10 @@
     "publish:production": "wrangler deploy -e production",
     "publish:staging": "wrangler deploy -e staging",
     "logs:production": "wrangler tail -e production",
-    "logs:staging": "wrangler tail -e staging"
+    "logs:staging": "wrangler tail -e staging",
+    "prepare": "husky install",
+    "format:check": "prettier --check .",
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -31,6 +34,9 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231025.0",
     "dotenv": "^16.3.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.1.0",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "wrangler": "^3.15.0"
