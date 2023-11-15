@@ -2,20 +2,16 @@ import { createHandler } from "workers-discord";
 
 import pingCommand from "./commands/ping";
 import pingComponent from "./components/ping";
+import statsCommand from "./commands/stats";
+import type { CtxWithEnv, Env } from "./env";
 
-interface Env {
-    DISCORD_PUBLIC_KEY: string;
-}
-
-type CtxWithEnv = ExecutionContext & { env: Env };
-
-let handler: ReturnType<typeof createHandler<Request, CtxWithEnv>>;
+let handler: ReturnType<typeof createHandler<CtxWithEnv>>;
 
 const worker: ExportedHandler<Env> = {
     fetch: async (request, env, ctx) => {
         // Create the handler if it doesn't exist yet
-        handler ??= createHandler<Request, CtxWithEnv>(
-            [pingCommand],
+        handler ??= createHandler<CtxWithEnv>(
+            [pingCommand, statsCommand],
             [pingComponent],
             env.DISCORD_PUBLIC_KEY,
             true,

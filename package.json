@@ -29,7 +29,7 @@
   "homepage": "https://github.com/MattIPv4/jinglebot#readme",
   "dependencies": {
     "discord-api-types": "^0.37.63",
-    "workers-discord": "^0.0.7"
+    "workers-discord": "^0.0.8"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231025.0",

@@ -4,7 +4,9 @@ import {
     ButtonStyle,
     type APIButtonComponent,
 } from "discord-api-types/payloads";
-import { type Component } from "workers-discord";
+import type { Component } from "workers-discord";
+
+import type { CtxWithEnv } from "../env";
 
 export const component: APIButtonComponent = {
     type: ComponentType.Button,
@@ -13,7 +15,7 @@ export const component: APIButtonComponent = {
     label: "Refresh",
 };
 
-const pingComponent: Component = {
+const pingComponent: Component<CtxWithEnv> = {
     name: "ping",
     execute: async ({ response }) =>
         response({

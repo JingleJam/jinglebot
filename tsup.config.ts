@@ -3,6 +3,7 @@ import { registerCommands } from "workers-discord";
 import dotenv from "dotenv";
 
 import pingCommand from "./src/commands/ping";
+import statsCommand from "./src/commands/stats";
 
 dotenv.config({ path: ".dev.vars" });
 
@@ -18,7 +19,7 @@ export default defineConfig({
         await registerCommands(
             process.env.DISCORD_CLIENT_ID!,
             process.env.DISCORD_CLIENT_SECRET!,
-            [pingCommand],
+            [pingCommand, statsCommand],
             true,
             process.env.DISCORD_GUILD_ID,
         );

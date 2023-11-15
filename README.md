@@ -19,7 +19,7 @@
 
 Ensure that the environment in `wrangler.toml` has been updated with your chosen for the worker.
 
-You'll also want to set `DISCORD_PUBLIC_KEY` as a secret for the worker, which you can do with `npx wrangler secret put DISCORD_PUBLIC_KEY -e <staging/production>`.
+You'll also want to set `DISCORD_PUBLIC_KEY` + `STATS_API_ENDPOINT` as a secret for the worker, which you can do with `npx wrangler secret put <DISCORD_PUBLIC_KEY/STATS_API_ENDPOINT> -e <staging/production>`.
 
 If you're deploying for local, make sure that you've got the appropriate environment variables set for `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` + `DISCORD_GUILD_ID` (otherwise, they'll default to the values in `.dev.vars`).
 

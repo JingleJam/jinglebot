@@ -3,11 +3,12 @@ import {
     MessageFlags,
     ComponentType,
 } from "discord-api-types/payloads";
-import { type Command } from "workers-discord";
+import type { Command } from "workers-discord";
 
 import { component } from "../components/ping";
+import type { CtxWithEnv } from "../env";
 
-const pingCommand: Command = {
+const pingCommand: Command<CtxWithEnv> = {
     name: "ping",
     description: "Ping the application to check if it is online.",
     execute: ({ response, wait, edit }) => {
