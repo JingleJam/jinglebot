@@ -4,6 +4,7 @@ import pingCommand from "./commands/ping";
 import pingComponent from "./components/ping";
 import statsCommand from "./commands/stats";
 import totalCommand from "./commands/total";
+import causesCommand from "./commands/causes";
 import type { CtxWithEnv, Env } from "./env";
 
 let handler: ReturnType<typeof createHandler<CtxWithEnv>>;
@@ -12,7 +13,7 @@ const worker: ExportedHandler<Env> = {
     fetch: async (request, env, ctx) => {
         // Create the handler if it doesn't exist yet
         handler ??= createHandler<CtxWithEnv>(
-            [pingCommand, statsCommand, totalCommand],
+            [pingCommand, statsCommand, totalCommand, causesCommand],
             [pingComponent],
             env.DISCORD_PUBLIC_KEY,
             true,
