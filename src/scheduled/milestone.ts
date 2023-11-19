@@ -49,8 +49,8 @@ const milestoneScheduled = async (
         `# :tada: ${money("£", recentMilestone, false)}`,
         "",
         `Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far through the Yogscast and fundraisers.`,
+        `  There have already been ${collections} games collections claimed, and our ${countFundraisers} fundraisers have raised ${totalFundraisers}!`,
         "",
-        `There have already been ${collections} games collections claimed, and our ${countFundraisers} fundraisers have raised ${totalFundraisers}!`,
         ":heart: Thank you for supporting some wonderful causes! Get involved and grab the collection at <https://jinglejam.tiltify.com>",
     ].join("\n");
     ctx.waitUntil(

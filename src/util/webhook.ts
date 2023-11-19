@@ -1,4 +1,4 @@
-import { RESTPostAPIWebhookWithTokenJSONBody } from "discord-api-types/rest";
+import type { RESTPostAPIWebhookWithTokenJSONBody } from "discord-api-types/rest";
 
 const sendWebhook = async (
     hook: string,

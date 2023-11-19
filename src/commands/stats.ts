@@ -6,6 +6,7 @@ import type { Command } from "workers-discord";
 
 import getStats from "../util/stats";
 import checkDate from "../util/check";
+import getNow from "../util/now";
 import { bold, date, italic, money, number } from "../util/format";
 import type { CtxWithEnv } from "../env";
 
@@ -21,17 +22,14 @@ const statsCommand: Command<CtxWithEnv> = {
                 // Check if Jingle Jam is running
                 const start = new Date(stats.event.start);
                 const check = checkDate(start);
-                // TODO: Re-enable this check once testing is done
-                // if (check) return edit({ content: check });
+                if (check) return edit({ content: check });
 
                 // Check if Jingle Jam has finished
                 const end = new Date(stats.event.end);
                 if (isNaN(+end)) throw new Error("Invalid end date");
 
                 // Time since launch
-                // TODO: Switch back to using the current time once testing is done
-                // const now = new Date();
-                const now = end;
+                const now = getNow();
                 const ended = now >= end;
                 const timeSinceLaunch = Math.min(
                     now.getTime() - start.getTime(),
