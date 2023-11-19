@@ -87,7 +87,7 @@ const statsCommand: Command<CtxWithEnv> = {
                     ).toString(),
                 );
 
-                const bundles = bold(number(stats.collections.redeemed));
+                const collections = bold(number(stats.collections.redeemed));
                 const average = bold(
                     money("£", stats.raised.yogscast / stats.donations.count),
                 );
@@ -98,10 +98,10 @@ const statsCommand: Command<CtxWithEnv> = {
                 const perDayDonations = bold(
                     number(stats.donations.count / daysSinceLaunch, 0),
                 );
-                const perHourBundles = bold(
+                const perHourCollections = bold(
                     number(stats.collections.redeemed / hoursSinceLaunch, 0),
                 );
-                const perDayBundles = bold(
+                const perDayCollections = bold(
                     number(stats.collections.redeemed / daysSinceLaunch, 0),
                 );
 
@@ -119,17 +119,17 @@ const statsCommand: Command<CtxWithEnv> = {
                         } raised a total of ${totalRaised} for charity during Jingle Jam ${
                             stats.event.year
                         }${ended ? "!" : " so far!"}`,
-                        `  Of that, ${totalYogscast} by the Yogscast, and ${totalFundraisers} from the community fundraisers.`,
+                        `  Of that, ${totalYogscast} by the Yogscast, and ${totalFundraisers} from fundraisers.`,
                         `  There ${
                             ended ? "were" : "are currently"
-                        } ${countFundraisers} community fundraisers${
+                        } ${countFundraisers} fundraisers${
                             ended ? " this year" : ""
                         }, supporting the ${countCauses} amazing causes.`,
                         "",
-                        `:package: This year, ${bundles} bundles ${
+                        `:package: This year, ${collections} games collections ${
                             ended ? "were" : "have been"
                         } redeemed, with the average donation being ${average}.`,
-                        `  That works out to an average of ${perHourBundles} bundles claimed per hour, or ${perDayBundles} bundles per day.`,
+                        `  That works out to an average of ${perHourCollections} collections claimed per hour, or ${perDayCollections} collections per day.`,
                         `  We've also received an average of ${perHourDonations} donations per hour, or ${perDayDonations} donations per day.`,
                         "",
                         `:scroll: Over the past ${historyYears} years, plus this year, we've raised a total of ${historyRaised} for charity!`,

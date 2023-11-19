@@ -9,7 +9,7 @@ const checkDate = (start: Date) => {
 
     // If we're within the same day, show the time
     if (start.getDate() === new Date().getDate()) {
-        return `The Jingle Jam bundle hasn't launched yet! Get ready to raise money for some awesome causes and grab the bundle when it goes live at ${time(
+        return `Jingle Jam hasn't launched yet! Get ready to raise money for some awesome causes and grab the games collection when it goes live at ${time(
             start,
         )}.`;
     }

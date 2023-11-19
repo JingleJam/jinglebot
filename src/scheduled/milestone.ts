@@ -41,17 +41,17 @@ const milestoneScheduled = async (
     // Format some stats
     const totalRaised = bold(money("£", total));
     const totalFundraisers = bold(money("£", stats.raised.fundraisers));
-    const bundles = bold(number(stats.collections.redeemed));
+    const collections = bold(number(stats.collections.redeemed));
     const countFundraisers = bold(number(stats.campaigns.count - 1));
 
     // Send the webhooks, in the background, with errors logged to the console
     const content = [
         `# :tada: ${money("£", recentMilestone, false)}`,
         "",
-        `Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far through the Yogscast and community fundraisers.`,
+        `Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far through the Yogscast and fundraisers.`,
         "",
-        `There have already been ${bundles} bundles claimed, and our ${countFundraisers} community fundraisers have raised ${totalFundraisers}!`,
-        ":heart: Thank you for supporting some wonderful causes! Get involved and grab the bundle at <https://jinglejam.tiltify.com>",
+        `There have already been ${collections} games collections claimed, and our ${countFundraisers} fundraisers have raised ${totalFundraisers}!`,
+        ":heart: Thank you for supporting some wonderful causes! Get involved and grab the collection at <https://jinglejam.tiltify.com>",
     ].join("\n");
     ctx.waitUntil(
         Promise.all(
