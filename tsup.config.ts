@@ -2,7 +2,6 @@ import { defineConfig } from "tsup";
 import { registerCommands } from "workers-discord";
 import dotenv from "dotenv";
 
-import pingCommand from "./src/commands/ping";
 import statsCommand from "./src/commands/stats";
 import totalCommand from "./src/commands/total";
 import causesCommand from "./src/commands/causes";
@@ -21,7 +20,7 @@ export default defineConfig({
         await registerCommands(
             process.env.DISCORD_CLIENT_ID!,
             process.env.DISCORD_CLIENT_SECRET!,
-            [pingCommand, statsCommand, totalCommand, causesCommand],
+            [statsCommand, totalCommand, causesCommand],
             true,
             process.env.DISCORD_GUILD_ID,
         );

@@ -1,7 +1,5 @@
 import { createHandler } from "workers-discord";
 
-import pingCommand from "./commands/ping";
-import pingComponent from "./components/ping";
 import statsCommand from "./commands/stats";
 import totalCommand from "./commands/total";
 import causesCommand from "./commands/causes";
@@ -13,8 +11,8 @@ const worker: ExportedHandler<Env> = {
     fetch: async (request, env, ctx) => {
         // Create the handler if it doesn't exist yet
         handler ??= createHandler<CtxWithEnv>(
-            [pingCommand, statsCommand, totalCommand, causesCommand],
-            [pingComponent],
+            [statsCommand, totalCommand, causesCommand],
+            [],
             env.DISCORD_PUBLIC_KEY,
             true,
         );
