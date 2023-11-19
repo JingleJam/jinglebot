@@ -1,7 +1,7 @@
-export const money = (currency: string, amount: number) =>
+export const money = (currency: string, amount: number, decimals = true) =>
     `${currency}${amount.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        minimumFractionDigits: decimals ? 2 : 0,
+        maximumFractionDigits: decimals ? 2 : 0,
     })}`;
 
 export const date = (date: Date, time = false) =>

@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build": "tsup",
-    "dev": "wrangler dev",
+    "dev": "wrangler dev --test-scheduled",
     "tunnel": "cloudflared tunnel --url http://localhost:8787",
     "publish:production": "wrangler deploy -e production",
     "publish:staging": "wrangler deploy -e staging",

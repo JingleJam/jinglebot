@@ -3,6 +3,12 @@ main = "dist/index.js"
 account_id = "fb1f542488f2441acf88ca15f3a8390d"
 workers_dev = true
 compatibility_date = "2023-10-25"
+kv_namespaces = [
+    { binding = "STORE", id = "bc46f9c352ab47ee96c22595cbab5ac4", preview_id = "bc46f9c352ab47ee96c22595cbab5ac4" }
+]
+
+[triggers]
+crons = ["* * * * *"]
 
 [build]
 command = "npm run build"
@@ -11,7 +17,13 @@ watch_dir = "src"
 [env.staging]
 workers_dev = false
 route = "jinglebot-staging.v4.wtf/*"
+kv_namespaces = [
+    { binding = "STORE", id = "05ad2b1932994c329dd85bd0d954b7dd" }
+]
 
 [env.production]
 workers_dev = false
 route = "jinglebot.v4.wtf/*"
+kv_namespaces = [
+    { binding = "STORE", id = "b7e0c324f4e94db5996a679975fa3515" }
+]

@@ -3,6 +3,8 @@ import { createHandler } from "workers-discord";
 import statsCommand from "./commands/stats";
 import totalCommand from "./commands/total";
 import causesCommand from "./commands/causes";
+import summaryScheduled from "./scheduled/summary";
+import milestoneScheduled from "./scheduled/milestone";
 import type { CtxWithEnv, Env } from "./env";
 
 let handler: ReturnType<typeof createHandler<CtxWithEnv>>;
@@ -24,6 +26,11 @@ const worker: ExportedHandler<Env> = {
 
         // Fallback for any requests not handled by the handler
         return new Response("Not found", { status: 404 });
+    },
+    scheduled: async (event, env, ctx) => {
+        // Provide some automated posting
+        await summaryScheduled(event, env, ctx);
+        await milestoneScheduled(event, env, ctx);
     },
 };
 

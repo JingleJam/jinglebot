@@ -1,0 +1,68 @@
+import getStats from "../util/stats";
+import { bold, money, number } from "../util/format";
+import sendWebhook from "../util/webhook";
+import type { Env } from "../env";
+
+const milestones = [
+    100_000, 500_000, 1_000_000, 1_500_000, 2_000_000, 2_500_000, 3_000_000,
+    4_000_000, 5_000_000, 6_000_000, 7_000_000, 8_000_000, 9_000_000,
+    10_000_000,
+];
+
+const milestoneScheduled = async (
+    event: ScheduledController,
+    env: Env,
+    ctx: ExecutionContext,
+) => {
+    // Short-circuit if there are no webhooks
+    const webhooks = env.DISCORD_MILESTONE_WEBHOOK?.split(",")
+        ?.map((s) => s.trim())
+        ?.filter(Boolean);
+    if (!webhooks || webhooks.length === 0) return;
+
+    // Get the latest stats, and all the milestones we've hit
+    const stats = await getStats(env.STATS_API_ENDPOINT);
+    const total = stats.raised.yogscast + stats.raised.fundraisers;
+    const passed = milestones.filter((m) => m <= total);
+
+    // Short-circuit if we haven't hit any milestones
+    if (passed.length === 0) return;
+
+    // Check the last milestone we posted, and don't post if it was the last one we hit
+    const lastMilestone = Number((await env.STORE.get("lastMilestone")) || 0);
+    const remainingMilestones = passed.filter((m) => m > lastMilestone);
+    if (!remainingMilestones.length) return;
+
+    // Get the most recent milestone we hit
+    // This could be switched to `Math.min` if we wanted to post every milestone
+    // instead of just the most recent one (skipping any intermediate ones)
+    const recentMilestone = Math.max(...passed);
+
+    // Format some stats
+    const totalRaised = bold(money("£", total));
+    const totalFundraisers = bold(money("£", stats.raised.fundraisers));
+    const bundles = bold(number(stats.collections.redeemed));
+    const countFundraisers = bold(number(stats.campaigns.count - 1));
+
+    // Send the webhooks, in the background, with errors logged to the console
+    const content = [
+        `# :tada: ${money("£", recentMilestone, false)}`,
+        "",
+        `Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far through the Yogscast and community fundraisers.`,
+        "",
+        `There have already been ${bundles} bundles claimed, and our ${countFundraisers} community fundraisers have raised ${totalFundraisers}!`,
+        ":heart: Thank you for supporting some wonderful causes! Get involved and grab the bundle at <https://jinglejam.tiltify.com>",
+    ].join("\n");
+    ctx.waitUntil(
+        Promise.all(
+            webhooks.map((webhook) =>
+                sendWebhook(webhook, { content }).catch(console.error),
+            ),
+        ),
+    );
+
+    // Update the last milestone we posted
+    await env.STORE.put("lastMilestone", String(recentMilestone));
+};
+
+export default milestoneScheduled;
