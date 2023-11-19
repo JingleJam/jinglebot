@@ -1,4 +1,7 @@
-import { InteractionResponseType } from "discord-api-types/payloads";
+import {
+    InteractionResponseType,
+    MessageFlags,
+} from "discord-api-types/payloads";
 import type { Command } from "workers-discord";
 
 import getStats from "../util/stats";
@@ -159,6 +162,7 @@ const statsCommand: Command<CtxWithEnv> = {
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
                 content: ":mag: Fetching the latest Jingle Jam stats...",
+                flags: MessageFlags.Ephemeral,
             },
         });
     },
