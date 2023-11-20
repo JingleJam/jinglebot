@@ -145,6 +145,10 @@ const statsCommand: Command<CtxWithEnv> = {
                                       stats.event.year + 1
                                   }.`
                         }`,
+                        "",
+                        `:chart_with_upwards_trend: ${italic(
+                            "Explore more stats at <https://www.jinglejam.co.uk/tracker>",
+                        )}`,
                     ].join("\n"),
                 });
             })().catch(async (error) => {
