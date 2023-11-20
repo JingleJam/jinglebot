@@ -1,6 +1,6 @@
 # JingleBot
 
-**A bot built for JingleJam, running on Cloudflare Workers**
+**Jingle Jam Discord bot built on Cloudflare Workers, providing stats commands and automatic announcements**
 
 ## Development
 

@@ -1,7 +1,7 @@
 {
   "name": "jinglebot",
   "version": "1.0.0",
-  "description": "JingleJam bot built on Cloudflare Workers",
+  "description": "Jingle Jam Discord bot built on Cloudflare Workers, providing stats commands and automatic announcements",
   "main": "dist/index.js",
   "type": "module",
   "private": true,
