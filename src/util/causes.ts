@@ -4,11 +4,11 @@ import type { Stats } from "./stats";
 const sluggify = (str: string) =>
     str
         // Remove anything that isn't a word character or space
-        .replace(/[^\w\s]+/g, "")
+        .replace(/[^a-zA-Z\s]+/g, "")
+        // Ensure any uppercase char at the start is lowercase for camel case
+        .replace(/^[A-Z]+/, (match) => match.toLowerCase())
         // Convert spaces to case changes for camel case
-        .replace(/\s+\S/g, (match) => match.trim().toUpperCase())
-        // Ensure first character is lowercase for camel case
-        .replace(/^./, (match) => match.toLowerCase());
+        .replace(/\s+\S/g, (match) => match.trim().toUpperCase());
 
 const hash = (str: string) => {
     let hash = 0;
@@ -39,7 +39,7 @@ const data: Record<string, { name?: string; emote?: string }> = {
     comicRelief: {
         emote: "<:ComicRelief:1159097684750250044>",
     },
-    coppafeel: {
+    coppaFeel: {
         emote: "<:CoppaFeel:1160890771273162832>",
     },
     galop: {
@@ -54,7 +54,7 @@ const data: Record<string, { name?: string; emote?: string }> = {
     justdiggit: {
         emote: "<:Justdiggit:1160889813461913632>",
     },
-    royalNationalInstituteOfBlindPeopleRNIB: {
+    rnibRoyalNationalInstituteOfBlindPeople: {
         emote: "<:RNIB:1160891327635017820>",
     },
     warChild: {
