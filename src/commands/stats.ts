@@ -7,7 +7,7 @@ import type { Command } from "workers-discord";
 import getStats from "../util/stats";
 import checkDate from "../util/check";
 import getNow from "../util/now";
-import { bold, date, italic, money, number } from "../util/format";
+import { bold, italic, money, number, timeSince } from "../util/format";
 import type { CtxWithEnv } from "../env";
 
 const statsCommand: Command<CtxWithEnv> = {
@@ -40,6 +40,10 @@ const statsCommand: Command<CtxWithEnv> = {
                     1,
                 );
                 const daysSinceLaunch = Math.max(hoursSinceLaunch / 24, 1);
+                const timeElapsed = italic(timeSince(start, ended ? end : now));
+                const timeRemaining = ended
+                    ? null
+                    : italic(timeSince(now, end));
 
                 // Format some stats
                 const totalRaised = bold(
@@ -108,13 +112,10 @@ const statsCommand: Command<CtxWithEnv> = {
                         bold(
                             `:snowflake: Jingle Jam ${stats.event.year} Stats`,
                         ),
-                        italic(
-                            `Last updated ${date(new Date(stats.date), true)}`,
-                        ),
                         "",
                         `:money_with_wings: ${
                             ended ? "We" : "We've"
-                        } raised a total of ${totalRaised} for charity during Jingle Jam ${
+                        } raised a total of ${totalRaised} for charity over the ${timeElapsed} of Jingle Jam ${
                             stats.event.year
                         }${ended ? "!" : " so far!"}`,
                         `  Of that, ${totalYogscast} by the Yogscast, and ${totalFundraisers} from fundraisers.`,
@@ -125,7 +126,7 @@ const statsCommand: Command<CtxWithEnv> = {
                         }, supporting the ${countCauses} amazing causes.`,
                         "",
                         `:package: This year, ${collections} games collections ${
-                            ended ? "were" : "have been"
+                            ended ? "were" : "have already been"
                         } redeemed, with the average donation being ${average}.`,
                         `  That works out to an average of ${perHourCollections} collections claimed per hour, or ${perDayCollections} collections per day.`,
                         `  We've also received an average of ${perHourDonations} donations per hour, or ${perDayDonations} donations per day.`,
@@ -134,11 +135,15 @@ const statsCommand: Command<CtxWithEnv> = {
                         `  Since ${historyOldest}, we've received ${historyDonations} charitable donations as part of Jingle Jam.`,
                         "",
                         `:heart: Thank you for supporting some wonderful causes! ${
-                            ended
-                                ? `We look forward to seeing you again for Jingle Jam ${
+                            timeRemaining
+                                ? `\n:arrow_right: There ${
+                                      /^\D*1 /.test(timeRemaining)
+                                          ? "is"
+                                          : "are"
+                                  } still ${timeRemaining} remaining to get involved and grab the collection at <https://jinglejam.tiltify.com>`
+                                : `We look forward to seeing you again for Jingle Jam ${
                                       stats.event.year + 1
                                   }.`
-                                : "Get involved at <https://jinglejam.tiltify.com>"
                         }`,
                     ].join("\n"),
                 });

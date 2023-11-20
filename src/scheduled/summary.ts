@@ -69,7 +69,7 @@ const summaryScheduled = async (
         "",
         `:money_with_wings: ${
             ended ? "We" : "We've"
-        } raised a total of ${totalRaised} for charity over the last ${timeElapsed} during Jingle Jam ${
+        } raised a total of ${totalRaised} for charity over the ${timeElapsed} of Jingle Jam ${
             stats.event.year
         }${ended ? "!" : " so far!"}`,
         `:package: There ${
