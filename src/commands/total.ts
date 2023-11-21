@@ -13,7 +13,7 @@ import type { CtxWithEnv } from "../env";
 const totalCommand: Command<CtxWithEnv> = {
     name: "total",
     description:
-        "Check the total raised for Jingle Jam, and how many games collections have been claimed.",
+        "Check the total raised for Jingle Jam, and how many Games Collections have been claimed.",
     execute: ({ response, wait, edit, context }) => {
         wait(
             (async () => {
@@ -56,7 +56,7 @@ const totalCommand: Command<CtxWithEnv> = {
                         } raised for charity during Jingle Jam ${
                             stats.event.year
                         }${ended ? "!" : " so far!"} `,
-                        `<:Jammy_HAPPY:1047503540475674634> ${collections} games collections ${
+                        `<:Jammy_HAPPY:1047503540475674634> ${collections} Games Collections ${
                             ended ? "were" : "have been"
                         } redeemed, and over all the years, we've now raised ${historyRaised}!`,
                         "",

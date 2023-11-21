@@ -54,7 +54,7 @@ const milestoneScheduled = async (
         )}`,
         "",
         `<:JingleJammy:1047503567981903894> Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far through the Yogscast and fundraisers.`,
-        `:black_small_square: There have already been ${collections} games collections claimed, and our ${countFundraisers} fundraisers have raised ${totalFundraisers}!`,
+        `:black_small_square: There have already been ${collections} Games Collections claimed, and our ${countFundraisers} fundraisers have raised ${totalFundraisers}!`,
         "",
         thanks(new Date(stats.event.end), stats.event.year),
     ].join("\n");

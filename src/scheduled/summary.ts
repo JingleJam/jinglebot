@@ -73,7 +73,7 @@ const summaryScheduled = async (
         }${ended ? "!" : " so far!"}`,
         `:black_small_square: There ${
             ended ? "were" : "have already been"
-        } ${collections} games collections redeemed, and ${fundraisers} fundraisers ${
+        } ${collections} Games Collections redeemed, and ${fundraisers} fundraisers ${
             ended ? "joined" : "have joined"
         } to raise money for charity.`,
         "",

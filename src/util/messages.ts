@@ -15,7 +15,7 @@ export const notStarted = (start: Date) => {
         start.getUTCMonth() === now.getUTCMonth() &&
         start.getUTCDate() === now.getUTCDate()
     ) {
-        return `<:JingleJammy:1047503567981903894> Jingle Jam hasn't launched yet! Get ready to raise money for some awesome causes and grab the games collection when it goes live at ${time(
+        return `<:JingleJammy:1047503567981903894> Jingle Jam hasn't launched yet! Get ready to raise money for some awesome causes and grab the collection when it goes live at ${time(
             start,
         )}.`;
     }

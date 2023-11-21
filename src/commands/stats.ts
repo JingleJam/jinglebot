@@ -122,7 +122,7 @@ const statsCommand: Command<CtxWithEnv> = {
                             ended ? " this year" : ""
                         }, supporting the ${countCauses} amazing causes.`,
                         "",
-                        `<:Jammy_HAPPY:1047503540475674634> This year, ${collections} games collections ${
+                        `<:Jammy_HAPPY:1047503540475674634> This year, ${collections} Games Collections ${
                             ended ? "were" : "have already been"
                         } redeemed, with the average donation being ${average}.`,
                         `:black_small_square: That works out to an average of ${perHourCollections} collections claimed per hour, or ${perDayCollections} collections per day.`,
