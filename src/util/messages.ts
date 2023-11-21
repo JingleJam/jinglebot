@@ -45,7 +45,7 @@ export const thanks = (end: Date, year: number) => {
         `<:Jammy_LOVE:1047503543935967273> Thank you for supporting some wonderful causes!` +
         `\n:mega: There ${
             /^1 /.test(timeRemaining) ? "is" : "are"
-        } still _${timeRemaining}_ remaining to get involved and grab the collection at <https://jinglejam.tiltify.com>`
+        } still _${timeRemaining}_ remaining to get involved and grab the collection at <https://jinglejam.co.uk/donate>`
     );
 };
 

@@ -134,7 +134,7 @@ const statsCommand: Command<CtxWithEnv> = {
                         thanks(end, stats.event.year),
                         "",
                         `:chart_with_upwards_trend: ${italic(
-                            "Explore more stats at <https://www.jinglejam.co.uk/tracker>",
+                            "Explore more stats at <https://jinglejam.co.uk/tracker>",
                         )}`,
                     ].join("\n"),
                 });
