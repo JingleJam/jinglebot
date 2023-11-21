@@ -19,14 +19,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MattIPv4/jinglebot.git"
+    "url": "git+https://github.com/JingleJam/jinglebot.git"
   },
-  "author": "Matt (IPv4) Cowley",
+  "author": "Jingle Jam (https://jinglejam.co.uk)",
+  "contributors": [
+    "Matt Cowley (https://mattcowley.co.uk)"
+  ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/MattIPv4/jinglebot/issues"
+    "url": "https://github.com/JingleJam/jinglebot/issues"
   },
-  "homepage": "https://github.com/MattIPv4/jinglebot#readme",
+  "homepage": "https://github.com/JingleJam/jinglebot#readme",
   "dependencies": {
     "discord-api-types": "^0.37.63",
     "workers-discord": "^0.0.8"
