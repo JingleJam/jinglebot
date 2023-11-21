@@ -1,5 +1,5 @@
 import getNow from "../util/now";
-import checkDate from "../util/check";
+import { notStarted, thanks } from "../util/messages";
 import getStats from "../util/stats";
 import sendWebhook from "../util/webhook";
 import { bold, italic, money, number, timeSince } from "../util/format";
@@ -43,7 +43,7 @@ const summaryScheduled = async (
     // Get the stats, and check if Jingle Jam is running
     const stats = await getStats(env.STATS_API_ENDPOINT);
     const start = new Date(stats.event.start);
-    if (checkDate(start)) return;
+    if (notStarted(start)) return;
 
     // Check the end, allowing for a final post after the end
     const end = new Date(stats.event.end);
@@ -56,7 +56,6 @@ const summaryScheduled = async (
     );
     const ended = now >= end;
     const timeElapsed = italic(timeSince(start, ended ? end : now));
-    const timeRemaining = ended ? null : italic(timeSince(now, end));
     const totalRaised = bold(
         money("£", stats.raised.yogscast + stats.raised.fundraisers),
     );
@@ -65,14 +64,14 @@ const summaryScheduled = async (
 
     // Send the webhooks, in the background, with errors logged to the console
     const content = [
-        `# :snowflake: Jingle Jam ${stats.event.year} Day ${daysSinceLaunch} Summary`,
+        `# <:JingleJammy:1047503567981903894> Jingle Jam ${stats.event.year} Day ${daysSinceLaunch} Summary`,
         "",
-        `:money_with_wings: ${
+        `<:Jammy_HAPPY:1047503540475674634> ${
             ended ? "We" : "We've"
         } raised a total of ${totalRaised} for charity over the ${timeElapsed} of Jingle Jam ${
             stats.event.year
         }${ended ? "!" : " so far!"}`,
-        `:package: There ${
+        `:black_small_square: There ${
             ended ? "were" : "have already been"
         } ${collections} games collections redeemed, and ${fundraisers} fundraisers ${
             ended ? "joined" : "have joined"
@@ -80,15 +79,7 @@ const summaryScheduled = async (
         "",
         causesBreakdown(stats),
         "",
-        `:heart: Thank you for supporting some wonderful causes! ${
-            timeRemaining
-                ? `\n:arrow_right: There ${
-                      /^\D*1 /.test(timeRemaining) ? "is" : "are"
-                  } still ${timeRemaining} remaining to get involved and grab the collection at <https://jinglejam.tiltify.com>`
-                : `We look forward to seeing you again for Jingle Jam ${
-                      stats.event.year + 1
-                  }.`
-        }`,
+        thanks(end, stats.event.year),
     ].join("\n");
     ctx.waitUntil(
         Promise.all(

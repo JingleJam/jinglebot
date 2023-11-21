@@ -5,9 +5,9 @@ import {
 import type { Command } from "workers-discord";
 
 import getStats from "../util/stats";
-import checkDate from "../util/check";
+import { error, loading, notStarted, thanks } from "../util/messages";
 import getNow from "../util/now";
-import { bold, italic, number } from "../util/format";
+import { bold, number } from "../util/format";
 import causesBreakdown from "../util/causes";
 import type { CtxWithEnv } from "../env";
 
@@ -22,52 +22,37 @@ const causesCommand: Command<CtxWithEnv> = {
 
                 // Check if Jingle Jam is running
                 const start = new Date(stats.event.start);
-                const check = checkDate(start);
+                const check = notStarted(start);
                 if (check) return edit({ content: check });
 
                 // Check if Jingle Jam has finished
                 const end = new Date(stats.event.end);
                 if (isNaN(+end)) throw new Error("Invalid end date");
-
-                // Time since launch
-                const now = getNow();
-                const ended = now >= end;
+                const ended = getNow() >= end;
 
                 await edit({
                     content: [
-                        `:snowflake: Jingle Jam ${stats.event.year} ${
-                            ended ? "supported" : "is supporting"
-                        } ${bold(number(stats.causes.length))} amazing causes:`,
+                        `<:JingleJammy:1047503567981903894> Jingle Jam ${
+                            stats.event.year
+                        } ${ended ? "supported" : "is supporting"} ${bold(
+                            number(stats.causes.length),
+                        )} amazing causes:`,
                         "",
                         causesBreakdown(stats),
                         "",
-                        `:heart: Thank you for supporting some wonderful causes! ${
-                            ended
-                                ? `We look forward to seeing you again for Jingle Jam ${
-                                      stats.event.year + 1
-                                  }.`
-                                : "Get involved at <https://jinglejam.tiltify.com>"
-                        }`,
+                        thanks(end, stats.event.year),
                     ].join("\n"),
                 });
-            })().catch(async (error) => {
-                console.error(error);
-
-                await edit({
-                    content: [
-                        ":pensive: Sorry, an error occurred while fetching the stats.",
-                        italic(
-                            "An ~~angry~~ polite message has been sent to the team letting them know.",
-                        ),
-                    ].join("\n"),
-                });
+            })().catch(async (err) => {
+                console.error(err);
+                await edit({ content: error() });
             }),
         );
 
         return response({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: ":mag: Fetching the latest Jingle Jam stats...",
+                content: loading(),
                 flags: MessageFlags.Ephemeral,
             },
         });

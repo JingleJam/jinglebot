@@ -5,7 +5,7 @@ import {
 import type { Command } from "workers-discord";
 
 import getStats from "../util/stats";
-import checkDate from "../util/check";
+import { error, loading, notStarted, thanks } from "../util/messages";
 import getNow from "../util/now";
 import { bold, italic, money, number, timeSince } from "../util/format";
 import type { CtxWithEnv } from "../env";
@@ -21,16 +21,16 @@ const statsCommand: Command<CtxWithEnv> = {
 
                 // Check if Jingle Jam is running
                 const start = new Date(stats.event.start);
-                const check = checkDate(start);
+                const check = notStarted(start);
                 if (check) return edit({ content: check });
 
                 // Check if Jingle Jam has finished
                 const end = new Date(stats.event.end);
                 if (isNaN(+end)) throw new Error("Invalid end date");
-
-                // Time since launch
                 const now = getNow();
                 const ended = now >= end;
+
+                // Time since launch
                 const timeSinceLaunch = Math.min(
                     now.getTime() - start.getTime(),
                     end.getTime() - start.getTime(),
@@ -41,9 +41,6 @@ const statsCommand: Command<CtxWithEnv> = {
                 );
                 const daysSinceLaunch = Math.max(hoursSinceLaunch / 24, 1);
                 const timeElapsed = italic(timeSince(start, ended ? end : now));
-                const timeRemaining = ended
-                    ? null
-                    : italic(timeSince(now, end));
 
                 // Format some stats
                 const totalRaised = bold(
@@ -110,7 +107,7 @@ const statsCommand: Command<CtxWithEnv> = {
                 await edit({
                     content: [
                         bold(
-                            `:snowflake: Jingle Jam ${stats.event.year} Stats`,
+                            `<:JingleJammy:1047503567981903894> Jingle Jam ${stats.event.year} Stats`,
                         ),
                         "",
                         `:money_with_wings: ${
@@ -118,57 +115,39 @@ const statsCommand: Command<CtxWithEnv> = {
                         } raised a total of ${totalRaised} for charity over the ${timeElapsed} of Jingle Jam ${
                             stats.event.year
                         }${ended ? "!" : " so far!"}`,
-                        `  Of that, ${totalYogscast} by the Yogscast, and ${totalFundraisers} from fundraisers.`,
-                        `  There ${
+                        `:black_small_square: Of that, ${totalYogscast} by the Yogscast, and ${totalFundraisers} from fundraisers.`,
+                        `:black_small_square: There ${
                             ended ? "were" : "are currently"
                         } ${countFundraisers} fundraisers${
                             ended ? " this year" : ""
                         }, supporting the ${countCauses} amazing causes.`,
                         "",
-                        `:package: This year, ${collections} games collections ${
+                        `<:Jammy_HAPPY:1047503540475674634> This year, ${collections} games collections ${
                             ended ? "were" : "have already been"
                         } redeemed, with the average donation being ${average}.`,
-                        `  That works out to an average of ${perHourCollections} collections claimed per hour, or ${perDayCollections} collections per day.`,
-                        `  We've also received an average of ${perHourDonations} donations per hour, or ${perDayDonations} donations per day.`,
+                        `:black_small_square: That works out to an average of ${perHourCollections} collections claimed per hour, or ${perDayCollections} collections per day.`,
+                        `:black_small_square: We've also received an average of ${perHourDonations} donations per hour, or ${perDayDonations} donations per day.`,
                         "",
                         `:scroll: Over the past ${historyYears} years, plus this year, we've raised a total of ${historyRaised} for charity!`,
-                        `  Since ${historyOldest}, we've received ${historyDonations} charitable donations as part of Jingle Jam.`,
+                        `:black_small_square: Since ${historyOldest}, we've received ${historyDonations} charitable donations as part of Jingle Jam.`,
                         "",
-                        `:heart: Thank you for supporting some wonderful causes! ${
-                            timeRemaining
-                                ? `\n:arrow_right: There ${
-                                      /^\D*1 /.test(timeRemaining)
-                                          ? "is"
-                                          : "are"
-                                  } still ${timeRemaining} remaining to get involved and grab the collection at <https://jinglejam.tiltify.com>`
-                                : `We look forward to seeing you again for Jingle Jam ${
-                                      stats.event.year + 1
-                                  }.`
-                        }`,
+                        thanks(end, stats.event.year),
                         "",
                         `:chart_with_upwards_trend: ${italic(
                             "Explore more stats at <https://www.jinglejam.co.uk/tracker>",
                         )}`,
                     ].join("\n"),
                 });
-            })().catch(async (error) => {
-                console.error(error);
-
-                await edit({
-                    content: [
-                        ":pensive: Sorry, an error occurred while fetching the stats.",
-                        italic(
-                            "An ~~angry~~ polite message has been sent to the team letting them know.",
-                        ),
-                    ].join("\n"),
-                });
+            })().catch(async (err) => {
+                console.error(err);
+                await edit({ content: error() });
             }),
         );
 
         return response({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: ":mag: Fetching the latest Jingle Jam stats...",
+                content: loading(),
                 flags: MessageFlags.Ephemeral,
             },
         });
