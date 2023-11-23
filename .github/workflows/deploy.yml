@@ -33,7 +33,7 @@ jobs:
 
     environment:
       name: ${{ github.ref_name }}
-      url: ${{ github.ref_name == 'production' && 'https://jinglebot.v4.wtf' || 'https://jinglebot-staging.v4.wtf' }}
+      url: ${{ github.ref_name == 'production' && 'https://jinglebot.v4.wtf/invite' || 'https://jinglebot-staging.v4.wtf/invite' }}
 
     steps:
       - uses: actions/checkout@v3
