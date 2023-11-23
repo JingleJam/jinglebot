@@ -84,3 +84,6 @@ export const bold = (text: string, escape = true) =>
 
 export const italic = (text: string, escape = true) =>
     `*${escape ? text.replace(/\*/g, "\\*") : text}*`;
+
+export const strike = (text: string, escape = true) =>
+    `~~${escape ? text.replace(/~/g, "\\~") : text}~~`;
