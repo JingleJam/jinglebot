@@ -23,7 +23,7 @@ Ensure that the environment in `wrangler.toml` has been updated with your chosen
 
 Ensure that the KV namespaces are created for staging/production environments and are configured in `wrangler.toml`. Use `npx wrangler kv:namespace create "STORE" -e <staging/production>`.
 
-You'll also want to set `DISCORD_PUBLIC_KEY` + `STATS_API_ENDPOINT` + `DISCORD_SUMMARY_WEBHOOK` + `DISCORD_MILESTONE_WEBHOOK` as secrets for the worker, which you can do with `npx wrangler secret put <var name> -e <staging/production>` (the webhook secrets can contain multiple webhooks, separated by a comma).
+You'll also want to set `DISCORD_CLIENT_ID` + `DISCORD_PUBLIC_KEY` + `STATS_API_ENDPOINT` (optionally, `DISCORD_SUMMARY_WEBHOOK` + `DISCORD_MILESTONE_WEBHOOK` + `WORKER_BASE_URL`) as secrets for the worker, which you can do with `npx wrangler secret put <var name> -e <staging/production>` (the webhook secrets can contain multiple webhooks, separated by a comma).
 
 If you're deploying for local, make sure that you've got the appropriate environment variables set for `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` + `DISCORD_GUILD_ID` (otherwise, they'll default to the values in `.dev.vars`).
 

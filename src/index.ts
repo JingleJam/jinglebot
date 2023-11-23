@@ -5,6 +5,8 @@ import totalCommand from "./commands/total";
 import causesCommand from "./commands/causes";
 import summaryScheduled from "./scheduled/summary";
 import milestoneScheduled from "./scheduled/milestone";
+import iconAssetPNG from "./assets/icon.png";
+import iconAssetSVG from "./assets/icon.svg";
 import type { CtxWithEnv, Env } from "./env";
 
 let handler: ReturnType<typeof createHandler<CtxWithEnv>>;
@@ -23,6 +25,29 @@ const worker: ExportedHandler<Env> = {
         (ctx as CtxWithEnv).env = env;
         const resp = await handler(request, ctx as CtxWithEnv);
         if (resp) return resp;
+
+        // Parse the URL
+        const url = new URL(request.url);
+
+        // Provide a direct link to invite the app
+        if (request.method === "GET" && url.pathname === "/invite") {
+            return Response.redirect(
+                `https://discord.com/oauth2/authorize?client_id=${env.DISCORD_CLIENT_ID}&scope=applications.commands`,
+                302,
+            );
+        }
+
+        // Serve the icon for the scheduled webhook messages
+        if (request.method === "GET" && url.pathname === "/icon.png") {
+            return new Response(iconAssetPNG, {
+                headers: { "Content-Type": "image/png" },
+            });
+        }
+        if (request.method === "GET" && url.pathname === "/icon.svg") {
+            return new Response(iconAssetSVG, {
+                headers: { "Content-Type": "image/svg+xml" },
+            });
+        }
 
         // Fallback for any requests not handled by the handler
         return new Response("Not found", { status: 404 });

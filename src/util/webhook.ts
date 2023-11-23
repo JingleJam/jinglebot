@@ -8,20 +8,13 @@ const sendWebhook = async (
     const url = new URL(hook);
     url.searchParams.set("wait", "true");
 
-    // Force a standard username for the webhook
-    const payload: RESTPostAPIWebhookWithTokenJSONBody = {
-        ...data,
-        username: "JingleBot",
-        // TODO: avatar_url
-    };
-
     // Make the request and check for any errors
     const res = await fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(data),
     });
 
     if (!res.ok) {

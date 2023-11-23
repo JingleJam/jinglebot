@@ -84,7 +84,13 @@ const summaryScheduled = async (
     ctx.waitUntil(
         Promise.all(
             webhooks.map((webhook) =>
-                sendWebhook(webhook, { content }).catch(console.error),
+                sendWebhook(webhook, {
+                    content,
+                    username: "JingleBot",
+                    avatar_url: env.WORKER_BASE_URL
+                        ? `${env.WORKER_BASE_URL}/icon.png`
+                        : undefined,
+                }).catch(console.error),
             ),
         ),
     );
