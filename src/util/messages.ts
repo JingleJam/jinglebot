@@ -9,15 +9,17 @@ export const notStarted = (start: Date) => {
     const now = getNow();
     if (start < now) return null;
 
-    // Get time until we start
-    const timeRemaining = italic(timeSince(start, now));
-
-    // If we're within the same day, show the time
-    if (
+    // Check if we're within the same day
+    const sameDay =
         start.getUTCFullYear() === now.getUTCFullYear() &&
         start.getUTCMonth() === now.getUTCMonth() &&
-        start.getUTCDate() === now.getUTCDate()
-    ) {
+        start.getUTCDate() === now.getUTCDate();
+
+    // Get time until we start (show minutes if within the same day)
+    const timeRemaining = italic(timeSince(start, now, sameDay));
+
+    // If we're within the same day, show the time
+    if (sameDay) {
         return (
             `<:JingleJammy:1047503567981903894> Jingle Jam launches in ${timeRemaining}!` +
             "\n:black_small_square: Get ready to raise money for some awesome causes and grab the collection when it goes live."
