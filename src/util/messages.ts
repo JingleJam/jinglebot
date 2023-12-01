@@ -9,17 +9,16 @@ export const notStarted = (start: Date) => {
     const now = getNow();
     if (start < now) return null;
 
-    // Check if we're within the same day
-    const sameDay =
-        start.getUTCFullYear() === now.getUTCFullYear() &&
-        start.getUTCMonth() === now.getUTCMonth() &&
-        start.getUTCDate() === now.getUTCDate();
+    // Check if we're within the final day
+    const finalDay = start.getTime() - now.getTime() <= 1000 * 60 * 60 * 24;
 
-    // Get time until we start (show minutes if within the same day)
-    const timeRemaining = italic(timeSince(start, now, sameDay));
+    // Get time until we start (show minutes if within the final day)
+    const timeRemaining = italic(
+        timeSince(start, now, { accuracy: finalDay ? "minutes" : "hours" }),
+    );
 
     // If we're within the same day, show the time
-    if (sameDay) {
+    if (finalDay) {
         return (
             `<:JingleJammy:1047503567981903894> Jingle Jam launches in ${timeRemaining}!` +
             "\n:black_small_square: Get ready to raise money for some awesome causes and grab the collection when it goes live."
@@ -46,14 +45,19 @@ export const thanks = (end: Date, year: number) => {
         );
     }
 
-    // Get time until we end
-    const timeRemaining = italic(timeSince(now, end));
+    // Check if we're within the final hour
+    const finalHour = end.getTime() - now.getTime() <= 1000 * 60 * 60;
+
+    // Get time until we end (show minutes if within the final hour)
+    const timeRemaining = italic(
+        timeSince(now, end, { accuracy: finalHour ? "minutes" : "hours" }),
+    );
 
     // Otherwise, show the time remaining
     return (
         `<:Jammy_LOVE:1047503543935967273> Thank you for supporting some wonderful causes!` +
         `\n:mega: There ${
-            /^\D*1 /.test(timeRemaining) ? "is" : "are"
+            /^(\D*1|less) /.test(timeRemaining) ? "is" : "are"
         } still ${timeRemaining} remaining to get involved and grab the collection at <https://jinglejam.co.uk/donate>`
     );
 };

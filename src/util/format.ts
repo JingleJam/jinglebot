@@ -33,39 +33,59 @@ export const plural = (number: number, singular: string, plural: string) =>
 export const timeSince = (
     start: Date,
     end: Date,
-    minutes = false,
-    seconds = false,
+    {
+        accuracy = "hours",
+        floor = true,
+    }: {
+        accuracy?: "seconds" | "minutes" | "hours";
+        floor?: boolean;
+    } = {},
 ) => {
-    const diff = Math.abs(end.getTime() - start.getTime());
-    const secs = Math.floor(diff / 1000);
-    const mins = seconds
-        ? Math.floor(diff / 1000 / 60)
-        : Math.round(diff / 1000 / 60);
-    const hours =
-        minutes || seconds
-            ? Math.floor(diff / 1000 / 60 / 60)
-            : Math.round(diff / 1000 / 60 / 60);
-    const days = Math.floor(diff / 1000 / 60 / 60 / 24);
+    // Determine our accuracy
+    const minutes = accuracy === "minutes" || accuracy === "seconds";
+    const seconds = accuracy === "seconds";
 
+    // Get the difference in seconds
+    const diff = Math.abs((end.getTime() - start.getTime()) / 1000);
+
+    // Get the values for each unit
+    let secs = Math.round(diff);
+    let mins = Math[floor ? "floor" : "ceil"](secs / 60);
+    let hours = Math[floor ? "floor" : "ceil"](mins / 60);
+    const days = Math[floor ? "floor" : "ceil"](hours / 24);
+
+    // Truncate the values
+    secs %= 60;
+    mins %= 60;
+    hours %= 24;
+
+    // Decide which units to show
     const parts = [
-        // Only show days if there are days
-        days > 0 && plural(days, "day", "days"),
-        // Only show hours if there are hours, seconds, or minutes
-        hours > 0 &&
-            (hours % 24 !== 0 ||
-                (minutes && mins % 60 !== 0) ||
-                (seconds && secs % 60 !== 0)) &&
-            plural(hours % 24, "hour", "hours"),
-        // Only show minutes if there are minutes or seconds
-        minutes &&
-            mins > 0 &&
-            (mins % 60 !== 0 || (seconds && secs % 60 !== 0)) &&
-            plural(mins % 60, "minute", "minutes"),
-        // Only show seconds if there are seconds
-        seconds && secs > 0 && plural(secs % 60, "second", "seconds"),
+        // We'll show the number of days if it's non-zero
+        ...(days ? [plural(days, "day", "days")] : []),
+        // We'll show the number of hours if it's non-zero
+        // We'll also show the number of hours if there are days, and minutes are enabled, and they're non-zero
+        // We'll also show the number of hours if there are days, and seconds are enabled, and they're non-zero
+        ...(hours || (days && minutes && mins) || (days && seconds && secs)
+            ? [plural(hours, "hour", "hours")]
+            : []),
+        // We'll show the number of minutes if they're enabled and non-zero
+        // We'll also show the number of minutes if there are days or seconds, and if seconds are enabled, and they're non-zero
+        ...((minutes && mins) || ((days || hours) && seconds && secs)
+            ? [plural(mins, "minute", "minutes")]
+            : []),
+        // We'll also show the number of seconds if they're enabled and non-zero
+        ...(seconds && secs ? [plural(secs, "second", "seconds")] : []),
     ].filter(Boolean);
 
-    // Format as a well-formed list
+    // If we have no parts, return less than
+    if (!parts.length) {
+        if (accuracy === "seconds") return "less than a second";
+        if (accuracy === "minutes") return "less than a minute";
+        return "less than an hour";
+    }
+
+    // Otherwise, return a well-formatted list
     if (parts.length < 3) return parts.join(" and ");
     return `${parts.slice(0, -1).join(", ")}, and ${parts.slice(-1)}`;
 };
