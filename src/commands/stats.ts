@@ -88,7 +88,11 @@ const statsCommand: Command<CtxWithEnv> = {
 
                 const collections = bold(number(stats.collections.redeemed));
                 const average = bold(
-                    money("£", stats.raised.yogscast / stats.donations.count),
+                    money(
+                        "£",
+                        (stats.raised.yogscast + stats.raised.fundraisers) /
+                            stats.donations.count,
+                    ),
                 );
 
                 const perHourDonations = bold(
