@@ -41,7 +41,7 @@ export const thanks = (end: Date, year: number) => {
     if (now >= end) {
         return (
             "<:Jammy_LOVE:1047503543935967273> Thank you for supporting some wonderful causes!" +
-            `We look forward to seeing you again for Jingle Jam ${year + 1}.`
+            ` We look forward to seeing you again for Jingle Jam ${year + 1}.`
         );
     }
 
