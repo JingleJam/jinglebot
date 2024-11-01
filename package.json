@@ -13,7 +13,7 @@
     "publish:staging": "wrangler deploy -e staging",
     "logs:production": "wrangler tail -e production",
     "logs:staging": "wrangler tail -e staging",
-    "prepare": "husky install",
+    "prepare": "husky",
     "format:check": "prettier --check .",
     "format": "prettier --write ."
   },
