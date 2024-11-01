@@ -16,14 +16,14 @@ watch_dir = "src"
 
 [env.staging]
 workers_dev = false
-route = "jinglebot-staging.v4.wtf/*"
+route = { pattern = "jinglebot-staging.v4.wtf/*", zone_name = "v4.wtf" }
 kv_namespaces = [
     { binding = "STORE", id = "05ad2b1932994c329dd85bd0d954b7dd" }
 ]
 
 [env.production]
 workers_dev = false
-route = "jinglebot.v4.wtf/*"
+route = { pattern = "jinglebot.v4.wtf/*", zone_name = "v4.wtf" }
 kv_namespaces = [
     { binding = "STORE", id = "b7e0c324f4e94db5996a679975fa3515" }
 ]
