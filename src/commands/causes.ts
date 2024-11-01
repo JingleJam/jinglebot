@@ -8,7 +8,7 @@ import getStats from "../util/stats";
 import { error, loading, notStarted, thanks } from "../util/messages";
 import getNow from "../util/now";
 import { bold, number } from "../util/format";
-import causesBreakdown from "../util/causes";
+import causesBreakdown, { parseEmoji } from "../util/causes";
 import type { CtxWithEnv } from "../env";
 
 const causesCommand: Command<CtxWithEnv> = {
@@ -38,7 +38,10 @@ const causesCommand: Command<CtxWithEnv> = {
                             number(stats.causes.length),
                         )} amazing causes:`,
                         "",
-                        causesBreakdown(stats),
+                        causesBreakdown(
+                            stats,
+                            parseEmoji(context.env.DISCORD_CAUSES_EMOJI),
+                        ),
                         "",
                         thanks(end, stats.event.year),
                     ].join("\n"),

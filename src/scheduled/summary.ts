@@ -3,7 +3,7 @@ import { notStarted, thanks } from "../util/messages";
 import getStats from "../util/stats";
 import sendWebhook from "../util/webhook";
 import { bold, italic, money, number, timeSince } from "../util/format";
-import causesBreakdown from "../util/causes";
+import causesBreakdown, { parseEmoji } from "../util/causes";
 import type { Env } from "../env";
 
 // Aim to post at 23:00 UTC every day
@@ -77,7 +77,7 @@ const summaryScheduled = async (
             ended ? "joined" : "have joined"
         } to raise money for charity.`,
         "",
-        causesBreakdown(stats),
+        causesBreakdown(stats, parseEmoji(env.DISCORD_CAUSES_EMOJI)),
         "",
         thanks(end, stats.event.year),
     ].join("\n");

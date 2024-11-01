@@ -4,6 +4,7 @@ export interface Env {
     STATS_API_ENDPOINT: string;
     DISCORD_SUMMARY_WEBHOOK?: string;
     DISCORD_MILESTONE_WEBHOOK?: string;
+    DISCORD_CAUSES_EMOJI?: string;
     WORKER_BASE_URL?: string;
     STORE: KVNamespace;
 }
