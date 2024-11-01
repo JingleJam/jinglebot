@@ -14,6 +14,7 @@
 5. Develop with the worker by running `npm run dev`.
     - To test the CRON functionality, hit the `/__scheduled?cron=*+*+*+*+*` endpoint.
 6. (Optional) Start an HTTP tunnel to your local development server by running `npm run tunnel`, using [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/run-tunnel/trycloudflare).
+    - To use a custom hostname in your Cloudflare account, first make sure you're authenticated with `cloudflared login`, then run `npm run tunnel -- --overwrite-dns --hostname <hostname> --name <name>` (where `<name>` can be any convenient name for the tunnel).
 
 ## Deployments
 
