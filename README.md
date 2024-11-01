@@ -6,7 +6,9 @@
 
 1. Create your test Discord application at https://discord.com/developers/applications (this does not need a bot account, just the application).
 2. Create your `.dev.vars` file.
-    - Copy `.dev.vars.example` and fill out the information from your Discord application, plus the ID of your test server/guild and webhooks for the bot to use.
+    - Copy `.dev.vars.example` and fill out the information from your Discord application, plus the ID of your test server/guild where you'll use the bot.
+    - Optionally, `DISCORD_SUMMARY_WEBHOOK` + `DISCORD_MILESTONE_WEBHOOK` can be set to channel webhooks for testing the scheduled messages.
+    - Optionally, `DISCORD_CAUSES_EMOJI` can be set to a JSON object mapping the cause names to custom emoji Markdown (in the format `<:name:1234567890>`).
 3. Authenticate with Wrangler by running `npx wrangler login`.
 4. Update `wrangler.toml` for your account.
     - Use `npx wrangler whoami` to get your account ID, update the value in `wrangler.toml` to match.
@@ -24,7 +26,7 @@ Ensure that the environment in `wrangler.toml` has been updated with your chosen
 
 Ensure that the KV namespaces are created for staging/production environments and are configured in `wrangler.toml`. Use `npx wrangler kv:namespace create "STORE" -e <staging/production>`.
 
-You'll also want to set `DISCORD_CLIENT_ID` + `DISCORD_PUBLIC_KEY` + `STATS_API_ENDPOINT` (optionally, `DISCORD_SUMMARY_WEBHOOK` + `DISCORD_MILESTONE_WEBHOOK` + `WORKER_BASE_URL`) as secrets for the worker, which you can do with `npx wrangler secret put <var name> -e <staging/production>` (the webhook secrets can contain multiple webhooks, separated by a comma).
+You'll also want to set `DISCORD_CLIENT_ID` + `DISCORD_PUBLIC_KEY` + `STATS_API_ENDPOINT` (optionally, `DISCORD_SUMMARY_WEBHOOK` + `DISCORD_MILESTONE_WEBHOOK` + `DISCORD_CAUSES_EMOJI` + `WORKER_BASE_URL`) as secrets for the worker, which you can do with `npx wrangler secret put <var name> -e <staging/production>` (the webhook secrets can contain multiple webhooks, separated by a comma).
 
 If you're deploying for local, make sure that you've got the appropriate environment variables set for `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` + `DISCORD_GUILD_ID` (otherwise, they'll default to the values in `.dev.vars`).
 
