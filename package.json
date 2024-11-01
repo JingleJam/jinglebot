@@ -35,13 +35,13 @@
     "workers-discord": "^0.0.10"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20231025.0",
-    "dotenv": "^16.3.2",
+    "@cloudflare/workers-types": "^4.20241022.0",
+    "dotenv": "^16.4.5",
     "husky": "^8.0.3",
-    "lint-staged": "^15.1.0",
-    "prettier": "^3.1.1",
-    "tsup": "^7.2.0",
-    "typescript": "^5.2.2",
-    "wrangler": "^3.19.0"
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "tsup": "^7.3.0",
+    "typescript": "^5.6.3",
+    "wrangler": "^3.84.1"
   }
 }
