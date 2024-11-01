@@ -31,15 +31,15 @@
   },
   "homepage": "https://github.com/JingleJam/jinglebot#readme",
   "dependencies": {
-    "discord-api-types": "^0.37.63",
-    "workers-discord": "^0.0.8"
+    "discord-api-types": "^0.37.103",
+    "workers-discord": "^0.0.10"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231025.0",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.3.2",
     "husky": "^8.0.3",
     "lint-staged": "^15.1.0",
-    "prettier": "^3.1.0",
+    "prettier": "^3.1.1",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "wrangler": "^3.19.0"
