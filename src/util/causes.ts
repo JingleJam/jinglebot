@@ -43,7 +43,7 @@ const causesBreakdown = (stats: Stats, emoji: Record<string, string>) =>
     stats.causes
         .map((cause) => {
             return bold(
-                `[${emoji[cause.name] || heart(cause.name)} ${cause.name}](${
+                `${emoji[cause.name] || heart(cause.name)} [${cause.name}](${
                     cause.url
                 }): ${money(
                     "£",
