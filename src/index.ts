@@ -31,8 +31,14 @@ const worker: ExportedHandler<Env> = {
 
         // Provide a direct link to invite the app
         if (request.method === "GET" && url.pathname === "/invite") {
+            const scope = [
+                "applications.commands",
+                url.searchParams.has("bot") && "bot",
+            ]
+                .filter(Boolean)
+                .join(" ");
             return Response.redirect(
-                `https://discord.com/oauth2/authorize?client_id=${env.DISCORD_CLIENT_ID}&scope=applications.commands`,
+                `https://discord.com/oauth2/authorize?client_id=${env.DISCORD_CLIENT_ID}&scope=${scope}`,
                 302,
             );
         }
