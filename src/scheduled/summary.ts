@@ -1,9 +1,9 @@
 import getNow from "../util/now";
 import { notStarted, thanks } from "../util/messages";
 import getStats from "../util/stats";
-import sendWebhook from "../util/webhook";
+import sendMessage from "../util/send";
 import { bold, italic, money, number, timeSince } from "../util/format";
-import causesBreakdown from "../util/causes";
+import causesBreakdown, { parseEmoji } from "../util/causes";
 import type { Env } from "../env";
 
 // Aim to post at 23:00 UTC every day
@@ -25,11 +25,15 @@ const summaryScheduled = async (
     env: Env,
     ctx: ExecutionContext,
 ) => {
-    // Short-circuit if there are no webhooks
-    const webhooks = env.DISCORD_SUMMARY_WEBHOOK?.split(",")
+    // Short-circuit if there is no token
+    const token = env.DISCORD_BOT_TOKEN?.trim();
+    if (!token) return;
+
+    // Short-circuit if there are no channels
+    const channels = env.DISCORD_SUMMARY_CHANNEL?.split(",")
         ?.map((s) => s.trim())
         ?.filter(Boolean);
-    if (!webhooks || webhooks.length === 0) return;
+    if (!channels || channels.length === 0) return;
 
     // Get the target, and short-circuit if we're not there yet
     const targetSummary = target();
@@ -77,20 +81,20 @@ const summaryScheduled = async (
             ended ? "joined" : "have joined"
         } to raise money for charity.`,
         "",
-        causesBreakdown(stats),
+        causesBreakdown(stats, parseEmoji(env.DISCORD_CAUSES_EMOJI)),
         "",
         thanks(end, stats.event.year),
     ].join("\n");
     ctx.waitUntil(
         Promise.all(
-            webhooks.map((webhook) =>
-                sendWebhook(webhook, {
-                    content,
-                    username: "JingleBot",
-                    avatar_url: env.WORKER_BASE_URL
-                        ? `${env.WORKER_BASE_URL}/icon.png`
-                        : undefined,
-                }).catch(console.error),
+            channels.map((channel) =>
+                sendMessage(
+                    channel,
+                    {
+                        content,
+                    },
+                    token,
+                ).catch(console.error),
             ),
         ),
     );

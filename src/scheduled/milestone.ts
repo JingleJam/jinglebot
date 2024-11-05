@@ -1,6 +1,6 @@
 import getStats from "../util/stats";
 import { bold, money, number } from "../util/format";
-import sendWebhook from "../util/webhook";
+import sendMessage from "../util/send";
 import { thanks } from "../util/messages";
 import type { Env } from "../env";
 
@@ -15,11 +15,15 @@ const milestoneScheduled = async (
     env: Env,
     ctx: ExecutionContext,
 ) => {
-    // Short-circuit if there are no webhooks
-    const webhooks = env.DISCORD_MILESTONE_WEBHOOK?.split(",")
+    // Short-circuit if there is no token
+    const token = env.DISCORD_BOT_TOKEN?.trim();
+    if (!token) return;
+
+    // Short-circuit if there are no channels
+    const channels = env.DISCORD_MILESTONE_CHANNEL?.split(",")
         ?.map((s) => s.trim())
         ?.filter(Boolean);
-    if (!webhooks || webhooks.length === 0) return;
+    if (!channels || channels.length === 0) return;
 
     // Get the latest stats, and all the milestones we've hit
     const stats = await getStats(env.STATS_API_ENDPOINT);
@@ -45,7 +49,7 @@ const milestoneScheduled = async (
     const collections = bold(number(stats.collections.redeemed));
     const countFundraisers = bold(number(stats.campaigns.count - 1));
 
-    // Send the webhooks, in the background, with errors logged to the console
+    // Send the messages, in the background, with errors logged to the console
     const content = [
         `# <:Jammy_HYPE:1047503542212108360> ${money(
             "£",
@@ -60,14 +64,14 @@ const milestoneScheduled = async (
     ].join("\n");
     ctx.waitUntil(
         Promise.all(
-            webhooks.map((webhook) =>
-                sendWebhook(webhook, {
-                    content,
-                    username: "JingleBot",
-                    avatar_url: env.WORKER_BASE_URL
-                        ? `${env.WORKER_BASE_URL}/icon.png`
-                        : undefined,
-                }).catch(console.error),
+            channels.map((channel) =>
+                sendMessage(
+                    channel,
+                    {
+                        content,
+                    },
+                    token,
+                ).catch(console.error),
             ),
         ),
     );

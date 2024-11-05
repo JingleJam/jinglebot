@@ -1,14 +1,23 @@
 import { bold, money } from "./format";
 import type { Stats } from "./stats";
 
-const sluggify = (str: string) =>
-    str
-        // Remove anything that isn't a word character or space
-        .replace(/[^a-zA-Z\s]+/g, "")
-        // Ensure any uppercase char at the start is lowercase for camel case
-        .replace(/^[A-Z]+/, (match) => match.toLowerCase())
-        // Convert spaces to case changes for camel case
-        .replace(/\s+\S/g, (match) => match.trim().toUpperCase());
+export const parseEmoji = (env?: string): Record<string, string> => {
+    try {
+        const raw = JSON.parse(env || "{}");
+        if (
+            typeof raw !== "object" ||
+            raw === null ||
+            Object.entries(raw).some(
+                ([key, value]) =>
+                    typeof key !== "string" || typeof value !== "string",
+            )
+        )
+            throw new Error("Invalid JSON");
+        return raw;
+    } catch (e) {
+        return {};
+    }
+};
 
 const hash = (str: string) => {
     let hash = 0;
@@ -20,62 +29,21 @@ const hash = (str: string) => {
 };
 
 const hearts = [
-    ":blue_heart:",
-    ":green_heart:",
-    ":purple_heart:",
-    ":yellow_heart:",
     ":heart:",
+    ":orange_heart:",
+    ":yellow_heart:",
+    ":green_heart:",
+    ":blue_heart:",
+    ":purple_heart:",
 ];
 
 const heart = (str: string) => hearts[Math.abs(hash(str)) % hearts.length];
 
-const data: Record<string, { name?: string; emote?: string }> = {
-    autistica: {
-        emote: "<:Autistica:1159097680753066035>",
-    },
-    campaignAgainstLivingMiserablyCALM: {
-        emote: "<:CALM:1159097678957920286>",
-    },
-    comicRelief: {
-        emote: "<:ComicRelief:1159097684750250044>",
-    },
-    coppaFeel: {
-        emote: "<:CoppaFeel:1160890771273162832>",
-    },
-    galop: {
-        emote: "<:Galop:1160890850075742309>",
-    },
-    movember: {
-        emote: "<:Movember:1160891203986927627>",
-    },
-    helloWorld: {
-        emote: "<:HelloWorld:1160884733283147866>",
-    },
-    justdiggit: {
-        emote: "<:Justdiggit:1160889813461913632>",
-    },
-    rnibRoyalNationalInstituteOfBlindPeople: {
-        emote: "<:RNIB:1160891327635017820>",
-    },
-    warChild: {
-        emote: "<:WarChild:1159097686394425385>",
-    },
-    wallaceGromitsGrandAppeal: {
-        emote: "<:GrandAppeal:1160891082972868608>",
-    },
-    whaleAndDolphinConservation: {
-        emote: "<:WDC:1159097675304669214>",
-    },
-};
-
-const causesBreakdown = (stats: Stats) =>
+const causesBreakdown = (stats: Stats, emoji: Record<string, string>) =>
     stats.causes
         .map((cause) => {
-            const slug = sluggify(cause.name);
-            const { name, emote } = data[slug] ?? {};
-
             return bold(
-                `[${emote || heart(cause.name)} ${name || cause.name}](${
+                `${emoji[cause.name] || heart(cause.name)} [${cause.name}](${
                     cause.url
                 }): ${money(
                     "£",
