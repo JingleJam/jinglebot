@@ -3,8 +3,9 @@ import { notStarted, thanks } from "../util/messages";
 import getStats from "../util/stats";
 import sendMessage from "../util/send";
 import { bold, italic, money, number, timeSince } from "../util/format";
-import causesBreakdown, { parseEmoji } from "../util/causes";
+import causesBreakdown from "../util/causes";
 import type { Env } from "../env";
+import { emojiRegular } from "../util/emoji";
 
 // Aim to post at 23:00 UTC every day
 const target = () => {
@@ -47,7 +48,7 @@ const summaryScheduled = async (
     // Get the stats, and check if Jingle Jam is running
     const stats = await getStats(env.STATS_API_ENDPOINT);
     const start = new Date(stats.event.start);
-    if (notStarted(start)) return;
+    if (notStarted(start, env)) return;
 
     // Check the end, allowing for a final post after the end
     const end = new Date(stats.event.end);
@@ -68,9 +69,9 @@ const summaryScheduled = async (
 
     // Send the webhooks, in the background, with errors logged to the console
     const content = [
-        `# <:JingleJammy:1047503567981903894> Jingle Jam ${stats.event.year} Day ${daysSinceLaunch} Summary`,
+        `# ${emojiRegular(env, "mascot")} Jingle Jam ${stats.event.year} Day ${daysSinceLaunch} Summary`,
         "",
-        `<:Jammy_HAPPY:1047503540475674634> ${
+        `${emojiRegular(env, "happy")} ${
             ended ? "We" : "We've"
         } raised a total of ${totalRaised} for charity over the ${timeElapsed} of Jingle Jam ${
             stats.event.year
@@ -81,9 +82,9 @@ const summaryScheduled = async (
             ended ? "joined" : "have joined"
         } to raise money for charity.`,
         "",
-        causesBreakdown(stats, parseEmoji(env.DISCORD_CAUSES_EMOJI)),
+        causesBreakdown(stats, env),
         "",
-        thanks(end, stats.event.year),
+        thanks(end, stats.event.year, env),
     ].join("\n");
     ctx.waitUntil(
         Promise.all(

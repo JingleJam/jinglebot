@@ -9,6 +9,7 @@ import { error, loading, notStarted, thanks } from "../util/messages";
 import getNow from "../util/now";
 import { bold, money, number } from "../util/format";
 import type { CtxWithEnv } from "../env";
+import { emojiRegular } from "../util/emoji";
 
 const totalCommand: Command<CtxWithEnv> = {
     name: "total",
@@ -21,7 +22,7 @@ const totalCommand: Command<CtxWithEnv> = {
 
                 // Check if Jingle Jam is running
                 const start = new Date(stats.event.start);
-                const check = notStarted(start);
+                const check = notStarted(start, context.env);
                 if (check) return edit({ content: check });
 
                 // Check if Jingle Jam has finished
@@ -51,28 +52,28 @@ const totalCommand: Command<CtxWithEnv> = {
 
                 await edit({
                     content: [
-                        `<:JingleJammy:1047503567981903894> ${totalRaised} ${
+                        `${emojiRegular(context.env, "mascot")} ${totalRaised} ${
                             ended ? "was" : "has been"
                         } raised for charity during Jingle Jam ${
                             stats.event.year
                         }${ended ? "!" : " so far!"} `,
-                        `<:Jammy_HAPPY:1047503540475674634> ${collections} Games Collections ${
+                        `${emojiRegular(context.env, "happy")} ${collections} Games Collections ${
                             ended ? "were" : "have been"
                         } redeemed, and over all the years, we've now raised ${historyRaised}!`,
                         "",
-                        thanks(end, stats.event.year),
+                        thanks(end, stats.event.year, context.env),
                     ].join("\n"),
                 });
             })().catch(async (err) => {
                 console.error(err);
-                await edit({ content: error() });
+                await edit({ content: error(context.env) });
             }),
         );
 
         return response({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: loading(),
+                content: loading(context.env),
                 flags: MessageFlags.Ephemeral,
             },
         });

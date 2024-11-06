@@ -6,6 +6,7 @@ export interface Env {
     DISCORD_SUMMARY_CHANNEL?: string;
     DISCORD_MILESTONE_CHANNEL?: string;
     DISCORD_CAUSES_EMOJI?: string;
+    DISCORD_REGULAR_EMOJI?: string;
     WORKER_BASE_URL?: string;
     STORE: KVNamespace;
 }

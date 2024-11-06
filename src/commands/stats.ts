@@ -9,6 +9,7 @@ import { error, loading, notStarted, thanks } from "../util/messages";
 import getNow from "../util/now";
 import { bold, italic, money, number, timeSince } from "../util/format";
 import type { CtxWithEnv } from "../env";
+import { emojiRegular } from "../util/emoji";
 
 const statsCommand: Command<CtxWithEnv> = {
     name: "stats",
@@ -21,7 +22,7 @@ const statsCommand: Command<CtxWithEnv> = {
 
                 // Check if Jingle Jam is running
                 const start = new Date(stats.event.start);
-                const check = notStarted(start);
+                const check = notStarted(start, context.env);
                 if (check) return edit({ content: check });
 
                 // Check if Jingle Jam has finished
@@ -111,7 +112,7 @@ const statsCommand: Command<CtxWithEnv> = {
                 await edit({
                     content: [
                         bold(
-                            `<:JingleJammy:1047503567981903894> Jingle Jam ${stats.event.year} Stats`,
+                            `${emojiRegular(context.env, "mascot")} Jingle Jam ${stats.event.year} Stats`,
                         ),
                         "",
                         `:money_with_wings: ${
@@ -126,7 +127,7 @@ const statsCommand: Command<CtxWithEnv> = {
                             ended ? " this year" : ""
                         }, supporting the ${countCauses} amazing causes.`,
                         "",
-                        `<:Jammy_HAPPY:1047503540475674634> This year, ${collections} Games Collections ${
+                        `${emojiRegular(context.env, "happy")} This year, ${collections} Games Collections ${
                             ended ? "were" : "have already been"
                         } redeemed, with the average donation being ${average}.`,
                         `:black_small_square: That works out to an average of ${perHourCollections} collections claimed per hour, or ${perDayCollections} collections per day.`,
@@ -135,7 +136,7 @@ const statsCommand: Command<CtxWithEnv> = {
                         `:scroll: Over the past ${historyYears} years, plus this year, we've raised a total of ${historyRaised} for charity!`,
                         `:black_small_square: Since ${historyOldest}, we've received ${historyDonations} charitable donations as part of Jingle Jam.`,
                         "",
-                        thanks(end, stats.event.year),
+                        thanks(end, stats.event.year, context.env),
                         "",
                         `:chart_with_upwards_trend: ${italic(
                             "Explore more stats at <https://jinglejam.co.uk/tracker>",
@@ -144,14 +145,14 @@ const statsCommand: Command<CtxWithEnv> = {
                 });
             })().catch(async (err) => {
                 console.error(err);
-                await edit({ content: error() });
+                await edit({ content: error(context.env) });
             }),
         );
 
         return response({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: loading(),
+                content: loading(context.env),
                 flags: MessageFlags.Ephemeral,
             },
         });
