@@ -1,7 +1,9 @@
+import type { Env } from "../env";
 import getNow from "./now";
 import { timeSince, italic, strike } from "./format";
+import { emojiRegular } from "./emoji";
 
-export const notStarted = (start: Date) => {
+export const notStarted = (start: Date, env: Env) => {
     // Ensure we have a valid date
     if (isNaN(+start)) throw new Error("Invalid start date");
 
@@ -20,19 +22,19 @@ export const notStarted = (start: Date) => {
     // If we're within the same day, show the time
     if (finalDay) {
         return (
-            `<:JingleJammy:1047503567981903894> Jingle Jam launches in ${timeRemaining}!` +
+            `${emojiRegular(env, "mascot")} Jingle Jam launches in ${timeRemaining}!` +
             "\n:black_small_square: Get ready to raise money for some awesome causes and grab the collection when it goes live."
         );
     }
 
     // Otherwise, show the date
     return (
-        "<:JingleJammy:1047503567981903894> It's not currently Jingle Jam time." +
+        `${emojiRegular(env, "mascot")} It's not currently Jingle Jam time.` +
         `\n:black_small_square: We look forward to seeing you in ${timeRemaining} when we'll be back to raise money again!`
     );
 };
 
-export const thanks = (end: Date, year: number) => {
+export const thanks = (end: Date, year: number, env: Env) => {
     // Ensure we have a valid date
     if (isNaN(+end)) throw new Error("Invalid start date");
 
@@ -40,7 +42,7 @@ export const thanks = (end: Date, year: number) => {
     const now = getNow();
     if (now >= end) {
         return (
-            "<:Jammy_LOVE:1047503543935967273> Thank you for supporting some wonderful causes!" +
+            `${emojiRegular(env, "love")} Thank you for supporting some wonderful causes!` +
             ` We look forward to seeing you again for Jingle Jam ${year + 1}.`
         );
     }
@@ -55,20 +57,20 @@ export const thanks = (end: Date, year: number) => {
 
     // Otherwise, show the time remaining
     return (
-        `<:Jammy_LOVE:1047503543935967273> Thank you for supporting some wonderful causes!` +
+        `${emojiRegular(env, "love")} Thank you for supporting some wonderful causes!` +
         `\n:mega: There ${
             /^(\D*1|less) /.test(timeRemaining) ? "is" : "are"
         } still ${timeRemaining} remaining to get involved and grab the collection at <https://jinglejam.co.uk/donate>`
     );
 };
 
-export const error = () =>
-    "<:Jammy_SAD:1047503547555643392> Sorry, an error occurred while fetching the stats." +
+export const error = (env: Env) =>
+    `${emojiRegular(env, "sad")} Sorry, an error occurred while fetching the stats.` +
     `\n:black_small_square: ${italic(
         `An ${strike(
             "angry",
         )} polite message has been sent to the team letting them know.`,
     )}`;
 
-export const loading = () =>
-    "<:JingleJammy:1047503567981903894> Fetching the latest Jingle Jam stats...";
+export const loading = (env: Env) =>
+    `${emojiRegular(env, "mascot")} Fetching the latest Jingle Jam stats...`;

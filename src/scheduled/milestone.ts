@@ -3,6 +3,7 @@ import { bold, money, number } from "../util/format";
 import sendMessage from "../util/send";
 import { thanks } from "../util/messages";
 import type { Env } from "../env";
+import { emojiRegular } from "../util/emoji";
 
 const milestones = [
     100_000, 500_000, 1_000_000, 1_500_000, 2_000_000, 2_500_000, 3_000_000,
@@ -51,16 +52,12 @@ const milestoneScheduled = async (
 
     // Send the messages, in the background, with errors logged to the console
     const content = [
-        `# <:Jammy_HYPE:1047503542212108360> ${money(
-            "£",
-            recentMilestone,
-            false,
-        )}`,
+        `# ${emojiRegular(env, "hype")} ${money("£", recentMilestone, false)}`,
         "",
-        `<:JingleJammy:1047503567981903894> Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far through the Yogscast and fundraisers.`,
+        `${emojiRegular(env, "mascot")} Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far through the Yogscast and fundraisers.`,
         `:black_small_square: There have already been ${collections} Games Collections claimed, and our ${countFundraisers} fundraisers have raised ${totalFundraisers}!`,
         "",
-        thanks(new Date(stats.event.end), stats.event.year),
+        thanks(new Date(stats.event.end), stats.event.year, env),
     ].join("\n");
     ctx.waitUntil(
         Promise.all(
