@@ -57,10 +57,14 @@ export const thanks = (end: Date, year: number, env: Env) => {
 
     // Otherwise, show the time remaining
     return (
-        `${emojiRegular(env, "love")} Thank you for supporting some wonderful causes!` +
-        `\n:mega: There ${
-            /^(\D*1|less) /.test(timeRemaining) ? "is" : "are"
-        } still ${timeRemaining} remaining to get involved and grab the collection at <https://jinglejam.co.uk/donate>`
+        (Math.random() < 0.5
+            ? `${emojiRegular(env, "love")} Thank you for supporting some wonderful causes!`
+            : `${emojiRegular(env, "love")} Your support means the world to these amazing causes. Thank you!`) +
+        (Math.random() < 0.5
+            ? `\n:mega: There ${
+                  /^(\D*1|less) /.test(timeRemaining) ? "is" : "are"
+              } still ${timeRemaining} remaining to get involved and grab the collection at <https://jinglejam.co.uk/donate>`
+            : `\n:mega: Keep the momentum going! With ${timeRemaining} left, grab your collection at <https://jinglejam.co.uk/donate>`)
     );
 };
 
