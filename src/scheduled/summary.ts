@@ -71,16 +71,28 @@ const summaryScheduled = async (
     const content = [
         `# ${emojiRegular(env, "mascot")} Jingle Jam ${stats.event.year} Day ${daysSinceLaunch} Summary`,
         "",
-        `${emojiRegular(env, "happy")} ${
-            ended ? "We" : "We've"
-        } raised a total of ${totalRaised} for charity over the ${timeElapsed} of Jingle Jam ${
-            stats.event.year
-        }${ended ? "!" : " so far!"}`,
-        `:black_small_square: There ${
-            ended ? "were" : "have already been"
-        } ${collections} Games Collections redeemed, and ${fundraisers} fundraisers ${
-            ended ? "joined" : "have joined"
-        } to raise money for charity.`,
+        Math.random() < 0.5
+            ? `${emojiRegular(env, "happy")} ${
+                  ended ? "We" : "We've"
+              } raised a total of ${totalRaised} for charity over the ${timeElapsed} of Jingle Jam ${
+                  stats.event.year
+              }${ended ? "!" : " so far!"}`
+            : `${emojiRegular(env, "happy")} ${
+                  ended ? "We" : "We've"
+              } raised ${totalRaised} for charity in just ${timeElapsed} of Jingle Jam ${
+                  stats.event.year
+              }!`,
+        Math.random() < 0.5
+            ? `:black_small_square: There ${
+                  ended ? "were" : "have already been"
+              } ${collections} Games Collections redeemed, and ${fundraisers} fundraisers ${
+                  ended ? "joined" : "have joined"
+              } to raise money for charity.`
+            : `:black_small_square: ${collections} Games Collections ${
+                  ended ? "were" : "have already been"
+              } redeemed, and ${fundraisers} fundraisers ${
+                  ended ? "joined" : "have joined"
+              } the cause.`,
         "",
         causesBreakdown(stats, env),
         "",
