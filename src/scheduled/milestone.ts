@@ -54,8 +54,12 @@ const milestoneScheduled = async (
     const content = [
         `# ${emojiRegular(env, "hype")} ${money("£", recentMilestone, false)}`,
         "",
-        `${emojiRegular(env, "mascot")} Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far through the Yogscast and fundraisers.`,
-        `:black_small_square: There have already been ${collections} Games Collections claimed, and our ${countFundraisers} fundraisers have raised ${totalFundraisers}!`,
+        Math.random() < 0.5
+            ? `${emojiRegular(env, "mascot")} Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far through the Yogscast and fundraisers.`
+            : `${emojiRegular(env, "mascot")} A new milestone has been reached! Jingle Jam ${stats.event.year} has raised ${totalRaised} so far through the Yogscast and fundraisers.`,
+        Math.random() < 0.5
+            ? `:black_small_square: There have already been ${collections} Games Collections claimed, and our ${countFundraisers} fundraisers have raised ${totalFundraisers}!`
+            : `:black_small_square: ${collections} Games Collections have already been claimed, and our ${countFundraisers} fundraisers have raised ${totalFundraisers}!`,
         "",
         thanks(new Date(stats.event.end), stats.event.year, env),
     ].join("\n");
