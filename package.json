@@ -15,7 +15,8 @@
     "logs:staging": "wrangler tail -e staging",
     "prepare": "husky",
     "format:check": "prettier --check .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
