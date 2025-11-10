@@ -6,13 +6,14 @@ const parseEmoji = (env?: string) => {
         return z
             .record(
                 z.string(),
-                z
-                    .stringFormat(
+                z.union([
+                    z.stringFormat(
                         "<:emoji:0123456789>",
                         /^<:[a-zA-Z0-9_]+:[0-9]+>$/,
-                    )
-                    .or(z.stringFormat(":emoji:", /^:[a-zA-Z0-9_]+:$/))
-                    .or(z.literal("")),
+                    ),
+                    z.stringFormat(":emoji:", /^:[a-zA-Z0-9_]+:$/),
+                    z.literal(""),
+                ]),
             )
             .parse(JSON.parse(env || "{}"));
     } catch (e) {
