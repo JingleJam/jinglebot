@@ -42,7 +42,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
     "prettier": "^3.4.1",
-    "tsup": "^8.3.5",
+    "tsup": "^8.5.0",
     "typescript": "^5.7.2",
     "wrangler": "^4.46.0"
   }
