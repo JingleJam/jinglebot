@@ -1,19 +1,22 @@
+import { z } from "zod";
 import type { Env } from "../env";
 
-const parseEmoji = (env?: string): Record<string, string> => {
+const parseEmoji = (env?: string) => {
     try {
-        const raw = JSON.parse(env || "{}");
-        if (
-            typeof raw !== "object" ||
-            raw === null ||
-            Object.entries(raw).some(
-                ([key, value]) =>
-                    typeof key !== "string" || typeof value !== "string",
+        return z
+            .record(
+                z.string(),
+                z
+                    .stringFormat(
+                        "<:emoji:0123456789>",
+                        /^<:[a-zA-Z0-9_]+:[0-9]+>$/,
+                    )
+                    .or(z.stringFormat(":emoji:", /^:[a-zA-Z0-9_]+:$/))
+                    .or(z.literal("")),
             )
-        )
-            throw new Error("Invalid JSON");
-        return raw;
+            .parse(JSON.parse(env || "{}"));
     } catch (e) {
+        console.error("Failed to parse emoji environment variable:", e);
         return {};
     }
 };
