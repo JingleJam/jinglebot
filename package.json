@@ -7,16 +7,17 @@
   "private": true,
   "scripts": {
     "build": "tsup",
+    "types": "wrangler types",
     "dev": "wrangler dev --test-scheduled",
     "tunnel": "cloudflared tunnel --url http://localhost:8787",
     "publish:production": "wrangler deploy -e production",
     "publish:staging": "wrangler deploy -e staging",
     "logs:production": "wrangler tail -e production",
     "logs:staging": "wrangler tail -e staging",
-    "prepare": "husky",
+    "prepare": "npm run types && husky",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "test": "tsc --noEmit"
+    "test": "npm run types && tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -36,13 +37,12 @@
     "workers-discord": "^0.0.12"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241202.0",
     "dotenv": "^16.4.6",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
     "prettier": "^3.4.1",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
-    "wrangler": "^3.91.0"
+    "wrangler": "^4.46.0"
   }
 }
