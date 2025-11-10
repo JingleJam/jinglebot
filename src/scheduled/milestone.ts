@@ -31,14 +31,14 @@ const milestoneScheduled = async (
     const total = stats.raised.yogscast + stats.raised.fundraisers;
     const passed = milestones.filter((m) => m <= total);
 
-    // Short-circuit if we haven't hit any milestones
+    // Short-circuit + reset if we haven't hit any milestones
+    const lastMilestone = Number((await env.STORE.get("lastMilestone")) || 0);
     if (passed.length === 0) {
-        await env.STORE.put("lastMilestone", "0");
+        if (lastMilestone !== 0) await env.STORE.put("lastMilestone", "0");
         return;
     }
 
-    // Check the last milestone we posted, and don't post if it was the last one we hit
-    const lastMilestone = Number((await env.STORE.get("lastMilestone")) || 0);
+    // Check if we have any new milestones since the last milestone we posted
     const remainingMilestones = passed.filter((m) => m > lastMilestone);
     if (!remainingMilestones.length) return;
 
