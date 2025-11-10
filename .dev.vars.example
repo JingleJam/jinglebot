@@ -5,8 +5,8 @@ DISCORD_CLIENT_SECRET=<discord_client_secret>
 # DISCORD_GUILD_ID=<discord_guild_id>
 # DISCORD_SUMMARY_CHANNEL=<discord_channel_id>
 # DISCORD_MILESTONE_CHANNEL=<discord_channel_id>
-# DISCORD_CAUSES_EMOJI={"Wallace & Gromit's Grand Appeal":"", ...}
-# DISCORD_REGULAR_EMOJI={"mascot":"","happy":"","hype":"","love":"","sad":""}
+# DISCORD_CAUSES_EMOJI={"Wallace & Gromit's Grand Appeal":"<:emoji:0123456789>", ...}
+# DISCORD_REGULAR_EMOJI={"mascot":"<:emoji:0123456789>","happy":":smiley:","hype":"","love":"","sad":""}
 # WORKER_BASE_URL=<worker_base_url>
 
 STATS_API_ENDPOINT=https://dashboard.jinglejam.co.uk/api/tiltify
