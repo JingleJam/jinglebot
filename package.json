@@ -34,7 +34,8 @@
   "homepage": "https://github.com/JingleJam/jinglebot#readme",
   "dependencies": {
     "discord-api-types": "^0.37.110",
-    "workers-discord": "^0.0.12"
+    "workers-discord": "^0.0.12",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "dotenv": "^16.4.6",
