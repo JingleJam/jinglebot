@@ -8,7 +8,7 @@
 2. Create your `.dev.vars` file.
     - Copy `.dev.vars.example` and fill out the information from your Discord application, plus the ID of your test server/guild where you'll use the bot.
     - Optionally, `DISCORD_SUMMARY_CHANNEL` + `DISCORD_MILESTONE_CHANNEL` can be set to channel IDs for testing the scheduled messages, as well as the `DISCORD_BOT_TOKEN` to send the messages as.
-    - Optionally, `DISCORD_CAUSES_EMOJI` + `DISCORD_REGULAR_EMOJI` can be set to a JSON object mapping the cause names + regular emoji (see [`const regular` in `src/util/emoji.ts`](src/util//emoji.ts)) to custom emoji Markdown (which can be [uploaded directly to the Discord application](https://discord.com/developers/docs/resources/emoji#emoji-object-applicationowned-emoji)).
+    - Optionally, `DISCORD_CAUSES_EMOJI` + `DISCORD_REGULAR_EMOJI` can be set to a JSON object mapping the cause names + regular emoji (see [`const regular` in `src/util/emoji.ts`](src/util/emoji.ts)) to custom emoji Markdown (which can be [uploaded directly to the Discord application](https://discord.com/developers/docs/resources/emoji#emoji-object-applicationowned-emoji)).
 3. Authenticate with Wrangler by running `npx wrangler login`.
 4. Update `wrangler.toml` for your account.
     - Use `npx wrangler whoami` to get your account ID, update the value in `wrangler.toml` to match.
