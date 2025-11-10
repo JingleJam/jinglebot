@@ -6,7 +6,7 @@ import statsCommand from "./src/commands/stats";
 import totalCommand from "./src/commands/total";
 import causesCommand from "./src/commands/causes";
 
-dotenv.config({ path: ".dev.vars" });
+dotenv.config({ path: ".dev.vars", quiet: true });
 
 export default defineConfig({
     // Generate a single ESM file for the worker
