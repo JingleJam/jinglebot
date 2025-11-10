@@ -38,7 +38,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "dotenv": "^16.4.6",
+    "dotenv": "^17.2.3",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
     "prettier": "^3.6.2",
