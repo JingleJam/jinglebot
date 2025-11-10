@@ -32,7 +32,10 @@ const milestoneScheduled = async (
     const passed = milestones.filter((m) => m <= total);
 
     // Short-circuit if we haven't hit any milestones
-    if (passed.length === 0) return;
+    if (passed.length === 0) {
+        await env.STORE.put("lastMilestone", "0");
+        return;
+    }
 
     // Check the last milestone we posted, and don't post if it was the last one we hit
     const lastMilestone = Number((await env.STORE.get("lastMilestone")) || 0);
