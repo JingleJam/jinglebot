@@ -7,22 +7,16 @@ const statsSchema = z.object({
         start: z.iso.datetime(),
         end: z.iso.datetime(),
     }),
-    raised: z.object({
-        yogscast: z.number(),
-        fundraisers: z.number(),
-    }),
+    raised: z.number(),
     collections: z.object({
         redeemed: z.number(),
         total: z.number(),
     }),
-    donations: z.object({
-        count: z.number(),
-    }),
+    donations: z.number(),
     history: z.array(
         z.object({
             year: z.number(),
             total: z.object({
-                dollars: z.number(),
                 pounds: z.number(),
             }),
             donations: z.number(),
@@ -34,33 +28,11 @@ const statsSchema = z.object({
             description: z.string(),
             url: z.string(),
             donateUrl: z.string(),
-            raised: z.object({
-                yogscast: z.number(),
-                fundraisers: z.number(),
-            }),
+            raised: z.number(),
         }),
     ),
     campaigns: z.object({
         count: z.number(),
-        list: z.array(
-            z.object({
-                name: z.string(),
-                slug: z.string(),
-                description: z.string(),
-                url: z.string(),
-                raised: z.number(),
-                goal: z.number(),
-                livestream: z.object({
-                    channel: z.string().nullable(),
-                    type: z.string(),
-                }),
-                user: z.object({
-                    name: z.string(),
-                    slug: z.string(),
-                    url: z.string(),
-                }),
-            }),
-        ),
     }),
 });
 

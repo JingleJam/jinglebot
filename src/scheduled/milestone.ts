@@ -28,8 +28,7 @@ const milestoneScheduled = async (
 
     // Get the latest stats, and all the milestones we've hit
     const stats = await getStats(env.STATS_API_ENDPOINT);
-    const total = stats.raised.yogscast + stats.raised.fundraisers;
-    const passed = milestones.filter((m) => m <= total);
+    const passed = milestones.filter((m) => m <= stats.raised);
 
     // Short-circuit + reset if we haven't hit any milestones
     const lastMilestone = Number((await env.STORE.get("lastMilestone")) || 0);
@@ -48,21 +47,20 @@ const milestoneScheduled = async (
     const recentMilestone = Math.max(...passed);
 
     // Format some stats
-    const totalRaised = bold(money("£", total));
-    const totalFundraisers = bold(money("£", stats.raised.fundraisers));
+    const totalRaised = bold(money("£", stats.raised));
     const collections = bold(number(stats.collections.redeemed));
-    const countFundraisers = bold(number(stats.campaigns.count - 1));
+    const countFundraisers = bold(number(stats.campaigns.count));
 
     // Send the messages, in the background, with errors logged to the console
     const content = [
         `# ${emojiRegular(env, "hype")} ${money("£", recentMilestone, false)}`,
         "",
         Math.random() < 0.5
-            ? `${emojiRegular(env, "mascot")} Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far through the Yogscast and fundraisers.`
-            : `${emojiRegular(env, "mascot")} A new milestone has been reached! Jingle Jam ${stats.event.year} has raised ${totalRaised} so far through the Yogscast and fundraisers.`,
+            ? `${emojiRegular(env, "mascot")} Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far thanks to our fundraisers.`
+            : `${emojiRegular(env, "mascot")} A new milestone has been reached! Jingle Jam ${stats.event.year} has raised ${totalRaised} so far thanks to our fundraisers.`,
         Math.random() < 0.5
-            ? `:black_small_square: There have already been ${collections} Games Collections claimed, and our ${countFundraisers} fundraisers have raised ${totalFundraisers}!`
-            : `:black_small_square: ${collections} Games Collections have already been claimed, and our ${countFundraisers} fundraisers have raised ${totalFundraisers}!`,
+            ? `:black_small_square: There have already been ${collections} Games Collections claimed, and ${countFundraisers} fundraisers have signed up to support Jingle Jam!`
+            : `:black_small_square: ${collections} Games Collections have already been claimed, and ${countFundraisers} fundraisers have signed up to get involved with Jingle Jam!`,
         "",
         thanks(new Date(stats.event.end), stats.event.year, env),
     ].join("\n");

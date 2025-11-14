@@ -9,10 +9,7 @@ const causesBreakdown = (stats: Stats, env: Env) =>
             return bold(
                 `${emojiCauses(env, cause.name)} [${cause.name}](${
                     cause.url
-                }): ${money(
-                    "£",
-                    cause.raised.yogscast + cause.raised.fundraisers,
-                )}`,
+                }): ${money("£", cause.raised)}`,
             );
         })
         .join("\n");

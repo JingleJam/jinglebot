@@ -44,27 +44,14 @@ const statsCommand: Command<CtxWithEnv> = {
                 const timeElapsed = italic(timeSince(start, ended ? end : now));
 
                 // Format some stats
-                const totalRaised = bold(
-                    money(
-                        "£",
-                        stats.raised.yogscast + stats.raised.fundraisers,
-                    ),
-                );
-                const totalYogscast = bold(money("£", stats.raised.yogscast));
-                const totalFundraisers = bold(
-                    money("£", stats.raised.fundraisers),
-                );
-
-                const countFundraisers = bold(
-                    number(stats.campaigns.count - 1),
-                );
+                const totalRaised = bold(money("£", stats.raised));
+                const countFundraisers = bold(number(stats.campaigns.count));
                 const countCauses = bold(number(stats.causes.length));
 
                 const historyRaised = bold(
                     money(
                         "£",
-                        stats.raised.yogscast +
-                            stats.raised.fundraisers +
+                        stats.raised +
                             stats.history.reduce(
                                 (total, year) => total + year.total.pounds,
                                 0,
@@ -73,7 +60,7 @@ const statsCommand: Command<CtxWithEnv> = {
                 );
                 const historyDonations = bold(
                     number(
-                        stats.donations.count +
+                        stats.donations +
                             stats.history.reduce(
                                 (total, year) => total + year.donations,
                                 0,
@@ -89,18 +76,14 @@ const statsCommand: Command<CtxWithEnv> = {
 
                 const collections = bold(number(stats.collections.redeemed));
                 const average = bold(
-                    money(
-                        "£",
-                        (stats.raised.yogscast + stats.raised.fundraisers) /
-                            stats.donations.count,
-                    ),
+                    money("£", stats.raised / stats.donations),
                 );
 
                 const perHourDonations = bold(
-                    number(stats.donations.count / hoursSinceLaunch, 0),
+                    number(stats.donations / hoursSinceLaunch, 0),
                 );
                 const perDayDonations = bold(
-                    number(stats.donations.count / daysSinceLaunch, 0),
+                    number(stats.donations / daysSinceLaunch, 0),
                 );
                 const perHourCollections = bold(
                     number(stats.collections.redeemed / hoursSinceLaunch, 0),
@@ -120,7 +103,6 @@ const statsCommand: Command<CtxWithEnv> = {
                         } raised a total of ${totalRaised} for charity over the ${timeElapsed} of Jingle Jam ${
                             stats.event.year
                         }${ended ? "!" : " so far!"}`,
-                        `:black_small_square: Of that, ${totalYogscast} by the Yogscast, and ${totalFundraisers} from fundraisers.`,
                         `:black_small_square: There ${
                             ended ? "were" : "are currently"
                         } ${countFundraisers} fundraisers${

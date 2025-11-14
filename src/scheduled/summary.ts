@@ -61,11 +61,9 @@ const summaryScheduled = async (
     );
     const ended = now >= end;
     const timeElapsed = italic(timeSince(start, ended ? end : now));
-    const totalRaised = bold(
-        money("£", stats.raised.yogscast + stats.raised.fundraisers),
-    );
+    const totalRaised = bold(money("£", stats.raised));
     const collections = bold(number(stats.collections.redeemed));
-    const fundraisers = bold(number(stats.campaigns.count - 1));
+    const fundraisers = bold(number(stats.campaigns.count));
 
     // Send the webhooks, in the background, with errors logged to the console
     const content = [
