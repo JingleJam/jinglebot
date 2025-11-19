@@ -31,17 +31,11 @@ const totalCommand: Command<CtxWithEnv> = {
                 const ended = getNow() >= end;
 
                 // Format some stats
-                const totalRaised = bold(
-                    money(
-                        "£",
-                        stats.raised.yogscast + stats.raised.fundraisers,
-                    ),
-                );
+                const totalRaised = bold(money("£", stats.raised));
                 const historyRaised = bold(
                     money(
                         "£",
-                        stats.raised.yogscast +
-                            stats.raised.fundraisers +
+                        stats.raised +
                             stats.history.reduce(
                                 (total, year) => total + year.total.pounds,
                                 0,
