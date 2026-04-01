@@ -1,4 +1,7 @@
+/// <reference types="node" />
+
 import dotenv from "dotenv";
+import { existsSync } from "node:fs";
 import { defineConfig } from "tsup";
 import { registerCommands } from "workers-discord";
 
@@ -8,13 +11,20 @@ import totalCommand from "./src/commands/total";
 
 dotenv.config({ path: ".dev.vars", quiet: true });
 
+// Include type definitions if they've been generated so we can check them when building
+const dts = existsSync("worker-configuration.d.ts");
+if (!dts) {
+    console.warn(
+        "worker-configuration.d.ts is required for type definitions. Please run `npm run types` to generate it.",
+    );
+}
+
 export default defineConfig({
     // Generate a single ESM file for the worker
-    // Include type definitions so we check them when building
     // Include source maps to help with debugging in development
     entry: ["src/index.ts"],
     format: ["esm"],
-    dts: true,
+    dts,
     sourcemap: true,
     clean: true,
     outDir: "dist",
