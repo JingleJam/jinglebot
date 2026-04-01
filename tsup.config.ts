@@ -1,10 +1,10 @@
+import dotenv from "dotenv";
 import { defineConfig } from "tsup";
 import { registerCommands } from "workers-discord";
-import dotenv from "dotenv";
 
+import causesCommand from "./src/commands/causes";
 import statsCommand from "./src/commands/stats";
 import totalCommand from "./src/commands/total";
-import causesCommand from "./src/commands/causes";
 
 dotenv.config({ path: ".dev.vars", quiet: true });
 
@@ -21,9 +21,19 @@ export default defineConfig({
     outExtension: () => ({ js: ".js" }),
     // Register the commands once the worker is built
     onSuccess: async () => {
+        if (
+            !process.env.DISCORD_CLIENT_ID ||
+            !process.env.DISCORD_CLIENT_SECRET
+        ) {
+            console.warn(
+                "DISCORD_CLIENT_ID and DISCORD_CLIENT_SECRET are required to register commands. Skipping registration.",
+            );
+            return;
+        }
+
         await registerCommands(
-            process.env.DISCORD_CLIENT_ID!,
-            process.env.DISCORD_CLIENT_SECRET!,
+            process.env.DISCORD_CLIENT_ID,
+            process.env.DISCORD_CLIENT_SECRET,
             [statsCommand, totalCommand, causesCommand],
             true,
             process.env.DISCORD_GUILD_ID,
