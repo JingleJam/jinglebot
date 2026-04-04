@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Env } from "../env";
+import type { Env } from "../env.ts";
 
 const parseEmoji = (env?: string) => {
     try {

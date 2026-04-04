@@ -1,7 +1,7 @@
-import type { Env } from "../env";
-import getNow from "./now";
-import { timeSince, italic, strike } from "./format";
-import { emojiRegular } from "./emoji";
+import type { Env } from "../env.ts";
+import { emojiRegular } from "./emoji.ts";
+import { italic, strike, timeSince } from "./format.ts";
+import getNow from "./now.ts";
 
 export const notStarted = (start: Date, env: Env) => {
     // Ensure we have a valid date

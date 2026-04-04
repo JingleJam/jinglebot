@@ -8,8 +8,11 @@
     "noEmitOnError": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
     "removeComments": false,
     "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "strict": true,
+    "noEmit": true
   }
 }
