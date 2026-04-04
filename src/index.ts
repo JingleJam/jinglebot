@@ -1,13 +1,13 @@
 import { createHandler } from "workers-discord";
 
-import statsCommand from "./commands/stats";
-import totalCommand from "./commands/total";
-import causesCommand from "./commands/causes";
-import summaryScheduled from "./scheduled/summary";
-import milestoneScheduled from "./scheduled/milestone";
 import iconAssetPNG from "./assets/icon.png";
 import iconAssetSVG from "./assets/icon.svg";
-import type { CtxWithEnv, Env } from "./env";
+import causesCommand from "./commands/causes.ts";
+import statsCommand from "./commands/stats.ts";
+import totalCommand from "./commands/total.ts";
+import type { CtxWithEnv, Env } from "./env.ts";
+import milestoneScheduled from "./scheduled/milestone.ts";
+import summaryScheduled from "./scheduled/summary.ts";
 
 let handler: ReturnType<typeof createHandler<CtxWithEnv>>;
 

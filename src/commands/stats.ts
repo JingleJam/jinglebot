@@ -4,12 +4,12 @@ import {
 } from "discord-api-types/payloads";
 import type { Command } from "workers-discord";
 
-import getStats from "../util/stats";
-import { error, loading, notStarted, thanks } from "../util/messages";
-import getNow from "../util/now";
-import { bold, italic, money, number, timeSince } from "../util/format";
-import type { CtxWithEnv } from "../env";
-import { emojiRegular } from "../util/emoji";
+import type { CtxWithEnv } from "../env.ts";
+import { emojiRegular } from "../util/emoji.ts";
+import { bold, italic, money, number, timeSince } from "../util/format.ts";
+import { error, loading, notStarted, thanks } from "../util/messages.ts";
+import getNow from "../util/now.ts";
+import getStats from "../util/stats.ts";
 
 const statsCommand: Command<CtxWithEnv> = {
     name: "stats",

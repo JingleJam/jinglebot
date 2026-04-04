@@ -1,9 +1,9 @@
-import getStats from "../util/stats";
-import { bold, money, number } from "../util/format";
-import sendMessage from "../util/send";
-import { thanks } from "../util/messages";
-import type { Env } from "../env";
-import { emojiRegular } from "../util/emoji";
+import type { Env } from "../env.ts";
+import { emojiRegular } from "../util/emoji.ts";
+import { bold, money, number } from "../util/format.ts";
+import { thanks } from "../util/messages.ts";
+import sendMessage from "../util/send.ts";
+import getStats from "../util/stats.ts";
 
 const milestones = [
     100_000, 500_000, 1_000_000, 1_500_000, 2_000_000, 2_500_000, 3_000_000,

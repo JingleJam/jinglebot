@@ -1,7 +1,7 @@
-import type { Env } from "../env";
-import { emojiCauses } from "./emoji";
-import { bold, money } from "./format";
-import type { Stats } from "./stats";
+import type { Env } from "../env.ts";
+import { emojiCauses } from "./emoji.ts";
+import { bold, money } from "./format.ts";
+import type { Stats } from "./stats.ts";
 
 const causesBreakdown = (stats: Stats, env: Env) =>
     stats.causes

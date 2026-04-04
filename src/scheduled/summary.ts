@@ -1,11 +1,11 @@
-import getNow from "../util/now";
-import { notStarted, thanks } from "../util/messages";
-import getStats from "../util/stats";
-import sendMessage from "../util/send";
-import { bold, italic, money, number, timeSince } from "../util/format";
-import causesBreakdown from "../util/causes";
-import type { Env } from "../env";
-import { emojiRegular } from "../util/emoji";
+import type { Env } from "../env.ts";
+import causesBreakdown from "../util/causes.ts";
+import { emojiRegular } from "../util/emoji.ts";
+import { bold, italic, money, number, timeSince } from "../util/format.ts";
+import { notStarted, thanks } from "../util/messages.ts";
+import getNow from "../util/now.ts";
+import sendMessage from "../util/send.ts";
+import getStats from "../util/stats.ts";
 
 // Aim to post at 23:00 UTC every day
 const target = () => {
