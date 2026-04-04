@@ -6,7 +6,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "tsup",
+    "build": "tsdown",
     "types": "wrangler types",
     "dev": "wrangler dev --test-scheduled",
     "tunnel": "cloudflared tunnel --url http://localhost:8787",
@@ -17,7 +17,7 @@
     "prepare": "npm run types && husky",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "test": "npm run types && tsc --noEmit"
+    "test": "npm run types && tsc"
   },
   "repository": {
     "type": "git",
@@ -46,7 +46,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.1",
-    "tsup": "^8.5.1",
+    "tsdown": "^0.21.7",
     "typescript": "^5.9.3",
     "wrangler": "^4.78.0"
   }
