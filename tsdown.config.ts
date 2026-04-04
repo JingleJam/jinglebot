@@ -1,34 +1,16 @@
-/// <reference types="node" />
-
 import dotenv from "dotenv";
-import { existsSync } from "node:fs";
-import { defineConfig } from "tsup";
+import { defineConfig } from "tsdown";
 import { registerCommands } from "workers-discord";
 
-import causesCommand from "./src/commands/causes";
-import statsCommand from "./src/commands/stats";
-import totalCommand from "./src/commands/total";
+import causesCommand from "./src/commands/causes.ts";
+import statsCommand from "./src/commands/stats.ts";
+import totalCommand from "./src/commands/total.ts";
 
 dotenv.config({ path: ".dev.vars", quiet: true });
 
-// Include type definitions if they've been generated so we can check them when building
-const dts = existsSync("worker-configuration.d.ts");
-if (!dts) {
-    console.warn(
-        "worker-configuration.d.ts is required for type definitions. Please run `npm run types` to generate it.",
-    );
-}
-
 export default defineConfig({
-    // Generate a single ESM file for the worker
     // Include source maps to help with debugging in development
-    entry: ["src/index.ts"],
-    format: ["esm"],
-    dts,
     sourcemap: true,
-    clean: true,
-    outDir: "dist",
-    outExtension: () => ({ js: ".js" }),
     // Register the commands once the worker is built
     onSuccess: async () => {
         if (
@@ -55,7 +37,7 @@ export default defineConfig({
         ".png": "binary",
         ".svg": "text",
     },
-    esbuildOptions: (options) => {
-        options.platform = "browser";
-    },
+    // Apply no syntax transformations and assume a browser-ish environment, not Node.js
+    target: false,
+    platform: "browser",
 });
