@@ -42,12 +42,12 @@
   },
   "devDependencies": {
     "@types/node": "~24.12.2",
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.4.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
-    "prettier": "^3.8.1",
-    "tsdown": "^0.21.7",
-    "typescript": "^6.0.2",
-    "wrangler": "^4.78.0"
+    "prettier": "^3.8.3",
+    "tsdown": "^0.21.10",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.85.0"
   }
 }
