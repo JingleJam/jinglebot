@@ -41,13 +41,13 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@types/node": "~24.12.2",
+    "@types/node": "~24.12.4",
     "dotenv": "^17.4.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.3",
-    "tsdown": "^0.21.10",
+    "tsdown": "^0.22.1",
     "typescript": "^6.0.3",
-    "wrangler": "^4.85.0"
+    "wrangler": "^4.95.0"
   }
 }
