@@ -36,7 +36,7 @@
     "node": ">=24.11.0"
   },
   "dependencies": {
-    "discord-api-types": "^0.38.47",
+    "discord-api-types": "^0.38.48",
     "workers-discord": "^0.0.13",
     "zod": "^4.4.3"
   },
