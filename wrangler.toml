@@ -14,6 +14,12 @@ crons = ["* * * * *"]
 command = "npm run build"
 watch_dir = "src"
 
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+invocation_logs = true
+persist = true
+
 [env.staging]
 workers_dev = false
 route = { pattern = "jinglebot-staging.v4.wtf/*", zone_name = "v4.wtf" }
