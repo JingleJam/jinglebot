@@ -49,20 +49,20 @@ const milestoneScheduled = async (
     // Format some stats
     const totalRaised = bold(money("£", stats.raised));
     const collections = bold(number(stats.collections.redeemed));
-    const countFundraisers = bold(number(stats.campaigns.count));
+    const countFundraisers = bold(number(stats.campaigns.total));
 
     // Send the messages, in the background, with errors logged to the console
     const content = [
         `# ${emojiRegular(env, "hype")} ${money("£", recentMilestone, false)}`,
         "",
         Math.random() < 0.5
-            ? `${emojiRegular(env, "mascot")} Jingle Jam ${stats.event.year} just hit a new milestone, with ${totalRaised} raised so far thanks to our fundraisers.`
-            : `${emojiRegular(env, "mascot")} A new milestone has been reached! Jingle Jam ${stats.event.year} has raised ${totalRaised} so far thanks to our fundraisers.`,
+            ? `${emojiRegular(env, "mascot")} Jingle Jam ${stats.meta.event.year} just hit a new milestone, with ${totalRaised} raised so far thanks to our fundraisers.`
+            : `${emojiRegular(env, "mascot")} A new milestone has been reached! Jingle Jam ${stats.meta.event.year} has raised ${totalRaised} so far thanks to our fundraisers.`,
         Math.random() < 0.5
             ? `:black_small_square: There have already been ${collections} Games Collections claimed, and ${countFundraisers} fundraisers have signed up to support Jingle Jam!`
             : `:black_small_square: ${collections} Games Collections have already been claimed, and ${countFundraisers} fundraisers have signed up to get involved with Jingle Jam!`,
         "",
-        thanks(new Date(stats.event.end), stats.event.year, env),
+        thanks(new Date(stats.meta.event.endsAt), stats.meta.event.year, env),
     ].join("\n");
     ctx.waitUntil(
         Promise.all(

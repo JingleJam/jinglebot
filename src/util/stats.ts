@@ -1,11 +1,12 @@
 import { z } from "zod";
 
 const statsSchema = z.object({
-    date: z.iso.datetime(),
-    event: z.object({
-        year: z.number(),
-        start: z.iso.datetime(),
-        end: z.iso.datetime(),
+    meta: z.object({
+        event: z.object({
+            year: z.number(),
+            startsAt: z.iso.datetime(),
+            endsAt: z.iso.datetime(),
+        }),
     }),
     raised: z.number(),
     collections: z.object({
@@ -32,7 +33,7 @@ const statsSchema = z.object({
         }),
     ),
     campaigns: z.object({
-        count: z.number(),
+        total: z.number(),
     }),
 });
 
