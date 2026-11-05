@@ -47,11 +47,11 @@ const summaryScheduled = async (
 
     // Get the stats, and check if Jingle Jam is running
     const stats = await getStats(env.STATS_API_ENDPOINT);
-    const start = new Date(stats.event.start);
+    const start = new Date(stats.meta.event.startsAt);
     if (notStarted(start, env)) return;
 
     // Check the end, allowing for a final post after the end
-    const end = new Date(stats.event.end);
+    const end = new Date(stats.meta.event.endsAt);
     if (isNaN(+end)) throw new Error("Invalid end date");
     if (checkEnd(end)) return;
 
@@ -63,22 +63,22 @@ const summaryScheduled = async (
     const timeElapsed = italic(timeSince(start, ended ? end : now));
     const totalRaised = bold(money("£", stats.raised));
     const collections = bold(number(stats.collections.redeemed));
-    const fundraisers = bold(number(stats.campaigns.count));
+    const fundraisers = bold(number(stats.campaigns.total));
 
     // Send the webhooks, in the background, with errors logged to the console
     const content = [
-        `# ${emojiRegular(env, "mascot")} Jingle Jam ${stats.event.year} Day ${daysSinceLaunch} Summary`,
+        `# ${emojiRegular(env, "mascot")} Jingle Jam ${stats.meta.event.year} Day ${daysSinceLaunch} Summary`,
         "",
         Math.random() < 0.5
             ? `${emojiRegular(env, "happy")} ${
                   ended ? "We" : "We've"
               } raised a total of ${totalRaised} for charity over the ${timeElapsed} of Jingle Jam ${
-                  stats.event.year
+                  stats.meta.event.year
               }${ended ? "!" : " so far!"}`
             : `${emojiRegular(env, "happy")} ${
                   ended ? "We" : "We've"
               } raised ${totalRaised} for charity in just ${timeElapsed} of Jingle Jam ${
-                  stats.event.year
+                  stats.meta.event.year
               }!`,
         Math.random() < 0.5
             ? `:black_small_square: There ${
@@ -94,7 +94,7 @@ const summaryScheduled = async (
         "",
         causesBreakdown(stats, env),
         "",
-        thanks(end, stats.event.year, env),
+        thanks(end, stats.meta.event.year, env),
     ].join("\n");
     ctx.waitUntil(
         Promise.all(

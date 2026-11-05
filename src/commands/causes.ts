@@ -22,26 +22,26 @@ const causesCommand: Command<CtxWithEnv> = {
                 const stats = await getStats(context.env.STATS_API_ENDPOINT);
 
                 // Check if Jingle Jam is running
-                const start = new Date(stats.event.start);
+                const start = new Date(stats.meta.event.startsAt);
                 const check = notStarted(start, context.env);
                 if (check) return edit({ content: check });
 
                 // Check if Jingle Jam has finished
-                const end = new Date(stats.event.end);
+                const end = new Date(stats.meta.event.endsAt);
                 if (isNaN(+end)) throw new Error("Invalid end date");
                 const ended = getNow() >= end;
 
                 await edit({
                     content: [
                         `${emojiRegular(context.env, "mascot")} Jingle Jam ${
-                            stats.event.year
+                            stats.meta.event.year
                         } ${ended ? "supported" : "is supporting"} ${bold(
                             number(stats.causes.length),
                         )} amazing causes:`,
                         "",
                         causesBreakdown(stats, context.env),
                         "",
-                        thanks(end, stats.event.year, context.env),
+                        thanks(end, stats.meta.event.year, context.env),
                     ].join("\n"),
                 });
             })().catch(async (err) => {

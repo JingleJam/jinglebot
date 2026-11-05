@@ -21,12 +21,12 @@ const statsCommand: Command<CtxWithEnv> = {
                 const stats = await getStats(context.env.STATS_API_ENDPOINT);
 
                 // Check if Jingle Jam is running
-                const start = new Date(stats.event.start);
+                const start = new Date(stats.meta.event.startsAt);
                 const check = notStarted(start, context.env);
                 if (check) return edit({ content: check });
 
                 // Check if Jingle Jam has finished
-                const end = new Date(stats.event.end);
+                const end = new Date(stats.meta.event.endsAt);
                 if (isNaN(+end)) throw new Error("Invalid end date");
                 const now = getNow();
                 const ended = now >= end;
@@ -45,7 +45,7 @@ const statsCommand: Command<CtxWithEnv> = {
 
                 // Format some stats
                 const totalRaised = bold(money("£", stats.raised));
-                const countFundraisers = bold(number(stats.campaigns.count));
+                const countFundraisers = bold(number(stats.campaigns.total));
                 const countCauses = bold(number(stats.causes.length));
 
                 const historyRaised = bold(
@@ -95,13 +95,13 @@ const statsCommand: Command<CtxWithEnv> = {
                 await edit({
                     content: [
                         bold(
-                            `${emojiRegular(context.env, "mascot")} Jingle Jam ${stats.event.year} Stats`,
+                            `${emojiRegular(context.env, "mascot")} Jingle Jam ${stats.meta.event.year} Stats`,
                         ),
                         "",
                         `:money_with_wings: ${
                             ended ? "We" : "We've"
                         } raised a total of ${totalRaised} for charity over the ${timeElapsed} of Jingle Jam ${
-                            stats.event.year
+                            stats.meta.event.year
                         }${ended ? "!" : " so far!"}`,
                         `:black_small_square: There ${
                             ended ? "were" : "are currently"
@@ -118,7 +118,7 @@ const statsCommand: Command<CtxWithEnv> = {
                         `:scroll: Over the past ${historyYears} years, plus this year, we've raised a total of ${historyRaised} for charity!`,
                         `:black_small_square: Since ${historyOldest}, we've received ${historyDonations} charitable donations as part of Jingle Jam.`,
                         "",
-                        thanks(end, stats.event.year, context.env),
+                        thanks(end, stats.meta.event.year, context.env),
                         "",
                         `:chart_with_upwards_trend: ${italic(
                             "Explore more stats at <https://jinglejam.co.uk/tracker>",
